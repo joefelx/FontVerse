@@ -26,57 +26,11 @@ function Footer() {
               />
             </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-[Mattone] text-purple-500 mb-5">
-              Blogs
-            </h1>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-[Mattone] text-purple-500 mb-5">
-              Blogs
-            </h1>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-            <a href="/">
-              <span>span</span>
-            </a>
-          </div>
         </div>
         <div className="flex justify-center items-center py-5">
           <span className=" font-light text-sm ">
             &#169; Designed & Developed by{" "}
-            <a className="font-[Mattone]">Joe Felix</a> & Team&#8482;
+            <a className="font-[Mattone]">Joe Felix</a> &#8482;
           </span>
         </div>
       </div>
