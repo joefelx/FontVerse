@@ -10,9 +10,7 @@ export const FontProvider = ({ children }) => {
 
   const fetchFonts = async () => {
     await axios
-      .get(
-        "https://api-fontverse.herokuapp.com/api/font/getfont?fontWeight=400"
-      )
+      .get("http://localhost:5000/api/font/getfont?fontWeight=400")
       .then((res) => {
         console.log(res);
         setFontsList(res.data.data);
@@ -21,9 +19,7 @@ export const FontProvider = ({ children }) => {
 
   const fetchFontByName = async () => {
     await axios
-      .get(
-        `https://api-fontverse.herokuapp.com/api/font/getfont?fontName=${fontName}`
-      )
+      .get(`http://localhost:5000/api/font/getfont?fontName=${fontName}`)
       .then((res) => {
         setFontsList(res.data.data);
       });
