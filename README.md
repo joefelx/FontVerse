@@ -1,11 +1,5 @@
-#FontPlace Frontend
+#Font Verse
 
-Steps to followed
+Font Verse is a Web3 Font Library with Mintable Fonts.
 
-`Home`
-
-- [x] Header
-- [x] Hero section
-- [x] Feature section
-- [ ] Testimonial section
-- [x] Footer
+(_The project is under construction_)
