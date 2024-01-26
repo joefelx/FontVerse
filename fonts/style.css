@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "Amphora";
+    src: url("./amphora/font/otf/Amphora-Regular.otf");
+}
+
+@font-face {
+    font-family: "Barracude";
+    src: url("./barracuda/Barracuda-regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Barracude";
+    src: url("./barracuda/Barracuda-Bold.ttf");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Barracude";
+    src: url("./barracuda/Barracuda-Light.ttf");
+    font-weight: 300;
+}
+
+.text1 {
+    font-family: "Amphora";
+    font-size: 6rem;
+}
+
+.text2 {
+    font-family: "Barracude";
+    font-size: 6rem;
+    font-weight: 700;
+}

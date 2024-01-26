@@ -1,0 +1,31 @@
+FONTLOG for Rinnet font.
+
+This file provides detailed information on the Rinnet font.
+This information should be distributed along with the Rinnet font(s) and any
+derivative works.
+
+
+Basic Font Information
+
+Amphora is a humanist blunt serif, designed by Calvin Anugerah Wijaya during Internshift program at Tokotype for 1 Month.
+
+To contribute to the project, Please see <a href="https://github.com/tokotype/AmphoraFont">github.com/tokotype/AmphoraFont</a> or visit http://www.tokotypefaces.com
+
+
+ChangeLog
+
+2 August 2020 (Calvin Anugerah W) Rinnet v1.000
+- Open sourced.
+- First public released.
+
+
+Acknowledgements
+
+If you make modifications be sure to add your name (N),
+email (E), web-address (if you have one) (W) and
+description (D). This list is in alphabetical order.
+
+N: Calvin Anugerah W
+E: calvinanugerahw@gmail.com
+W: http://www.tokotypefaces.com
+D: Original designer

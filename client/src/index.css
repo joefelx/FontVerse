@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Mattone";
+  src: url("./assets/fonts/Mattone.woff2");
+}
