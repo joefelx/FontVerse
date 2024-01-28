@@ -5,11 +5,21 @@ const Font = require("../model/Font");
 
 const upload = require("../storage");
 const RenderCSS = require("../utils/utils");
+const supabase = require("../supabase/index");
 
 // create font style and store in db
-router.post("/upload", upload.single("font"), async (req, res) => {
+router.post("/upload", upload.single("file"), async (req, res) => {
   const file = req.file;
   const { userId, fontName, fontDetails, fontWeight, price } = req.body;
+
+  const fileName = Date.now() + "-" + file.originalname;
+
+  const { data, error } = await supabase.storage
+    .from("fonts")
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
 
   const fontRefactor = {
     userId,

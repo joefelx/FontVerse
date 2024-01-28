@@ -41,7 +41,7 @@ router.post("/auth/signup", async (req, res) => {
 });
 
 // Sign in or Login user
-router.post("/auth/signin", async (req, res) => {
+router.post("/auth/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     !user &&
@@ -108,10 +108,10 @@ router.put("/update/:id", async (req, res) => {
 });
 
 // Delete user
-router.delete("/deactivate/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   if (req.params.id === req.body.userId) {
     try {
-      const deleteUser = await User.findByIdAndDelete(req.body.userId);
+      await User.findByIdAndDelete(req.body.userId);
       res.status(202).json({
         status: "success",
         data: "User deleted",
