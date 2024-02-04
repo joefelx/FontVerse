@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const mainBaseURL = "https://font-verse-api.onrender.com/api";
-const localBaseURL = "http://localhost:5000/api";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const instance = axios.create({
-  baseURL: localBaseURL,
+  baseURL: SERVER_URL,
   headers: {
     Accept: "application/json",
   },

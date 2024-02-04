@@ -13,18 +13,31 @@ const useFont = () => {
       await axios.get("/font?fontWeight=400").then((res) => {
         dispatch({ type: "SET_FONTS_LIST", payload: res.data });
       });
-    } else {
+    } else if (type === "fontName") {
       await axios.get(`/font?fontName=${value}`).then((res) => {
-        console.log(res.data[0]);
-        dispatch({ type: "SET_CURRENT_FONT", payload: res.data[0] });
+        setCurrentFont(res.data[0]);
       });
+    } else {
+      const { data } = await axios.get("/font/all");
+      dispatch({ type: "SET_FONTS_LIST", payload: data });
     }
   };
 
+  const fetchAllFonts = async () => {
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/font/all`)
+      .then((response) => response.json())
+      .then((data) => {
+        window.localStorage.setItem("fonts", JSON.stringify(data));
+      })
+      .then(() => {
+        const fonts = window.localStorage.getItem("fonts");
+        dispatch({ type: "SET_FONTS_LIST", payload: JSON.parse(fonts) });
+      });
+  };
+
   const randomFetchFont = async () => {
-    await axios.get("/font/all").then((res) => {
-      setCurrentFont(res.data[generateRandomNum(res.data.length)]);
-    });
+    const fonts = JSON.parse(window.localStorage.getItem("fonts"));
+    setCurrentFont(fonts[generateRandomNum(fonts.length)]);
   };
 
   const addToCollection = (fontFamily) => {
@@ -49,11 +62,12 @@ const useFont = () => {
   };
 
   return {
-    fetchFonts,
-    randomFetchFont,
+    currentFont,
     selectedFonts,
     fontsList,
-    currentFont,
+    fetchFonts,
+    fetchAllFonts,
+    randomFetchFont,
     setCurrentFont,
     addToCollection,
     removeFromCollection,

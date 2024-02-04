@@ -145,23 +145,12 @@ function Header() {
     }
   }, [selectedFonts]);
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   setShow(false);
-    // }, [10 * 1000]);
-    showHeader();
-  }, [document.onmousedown]);
-
   return (
-    <nav className="sticky top-0 bg-white text-black w-full h-auto min-h-[110px] flex justify-center font-[Mattone] cursor-pointer">
+    <nav className="sticky top-0 bg-white text-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
       <div className="w-full max-w-6xl">
         {/* general header */}
         <div className={`${show && "border-b-2 border-gray"}`}>
-          <div
-            className={`header min-h-[110px] z-20 text-sm flex flex-col md:flex-row items-center justify-center 
-              
-            } `}
-          >
+          <div className=" z-20 text-sm flex flex-col md:flex-row items-center justify-center">
             {/* links 1 and 2 */}
             <ul className="md:flex items-center hidden">
               <li className="mx-3">Home</li>
@@ -212,7 +201,7 @@ function Header() {
             </ul>
           </div>
           <div
-            className="w-fu;l flex justify-center items-center text-3xl z-10"
+            className="w-full flex justify-center items-center text-3xl z-10"
             onClick={() => setShow(!show)}
           >
             <BsChevronCompactDown className="text-tan" />

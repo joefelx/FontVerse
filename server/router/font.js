@@ -75,7 +75,24 @@ router.get("/style", async (req, res) => {
     let fontFamily = req.query.fontFamily;
     let fontFamilyList = fontFamily.split(",");
 
-    let formatString = await RenderCSS(fontFamilyList);
+    let formatString = await RenderCSS(fontFamilyList, false);
+
+    res.status(200).format({
+      "text/css": async function () {
+        res.send(formatString);
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// return all the font style
+router.get("/style/all", async (req, res) => {
+  try {
+    const fonts = await Font.find();
+
+    let formatString = await RenderCSS(fonts, true);
 
     res.status(200).format({
       "text/css": async function () {

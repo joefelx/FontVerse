@@ -1,8 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages";
 import { Header, Footer } from "./components";
+import useFont from "./hooks/useFont";
+import { useEffect } from "react";
 
 function App() {
+  const { fetchAllFonts, randomFetchFont } = useFont();
+  useEffect(() => {
+    fetchAllFonts();
+    randomFetchFont();
+  }, []);
+
   return (
     <div className="min-h-screen w-full bg-lightwhite">
       <Header />
