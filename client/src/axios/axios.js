@@ -4,7 +4,7 @@ const mainBaseURL = "https://font-verse-api.onrender.com/api";
 const localBaseURL = "http://localhost:5000/api";
 
 const instance = axios.create({
-  baseURL: mainBaseURL,
+  baseURL: localBaseURL,
   headers: {
     Accept: "application/json",
   },
