@@ -8,18 +8,9 @@ const RenderCSS = require("../utils/utils");
 const supabase = require("../supabase/index");
 
 // create font style and store in db
-router.post("/upload", upload.single("file"), async (req, res) => {
+router.post("/upload", upload.single("font"), async (req, res) => {
   const file = req.file;
   const { userId, fontName, fontDetails, fontWeight, price } = req.body;
-
-  const fileName = Date.now() + "-" + file.originalname;
-
-  const { data, error } = await supabase.storage
-    .from("fonts")
-    .upload(fileName, file, {
-      cacheControl: "3600",
-      upsert: false,
-    });
 
   const fontRefactor = {
     userId,
@@ -27,7 +18,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     fontDetails,
     fontWeights: {
       fontWeight,
-      fontURL: `https://font-verse-api.onrender.com/fonts/${file.filename}`,
+      fontURL: `${process.env.SERVER_URL}/fonts/${file.filename}`,
     },
     price,
   };
@@ -38,6 +29,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       // create new font object
       const font = await Font(fontRefactor);
       const savedFont = await font.save();
+
       res.status(200).json({
         status: "success",
         data: savedFont,
@@ -58,7 +50,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
 router.post("/update", upload.single("font"), async (req, res) => {
   const file = req.file;
-  const { fontName, fontWeight } = req.body;
+  const { userId, fontName, fontWeight } = req.body;
 
   const font = await Font.findOne({ fontName: fontName });
 
@@ -66,7 +58,7 @@ router.post("/update", upload.single("font"), async (req, res) => {
     $push: {
       fontWeights: {
         fontWeight,
-        fontURL: `https://font-verse-api.onrender.com/fonts/${file.filename}`,
+        fontURL: `${process.env.SERVER_URL}/fonts/${file.filename}`,
       },
     },
   });
@@ -81,9 +73,9 @@ router.post("/update", upload.single("font"), async (req, res) => {
 router.get("/style", async (req, res) => {
   try {
     let fontFamily = req.query.fontFamily;
-    let fontFamilyArray = fontFamily.split(",");
+    let fontFamilyList = fontFamily.split(",");
 
-    let formatString = await RenderCSS(fontFamilyArray);
+    let formatString = await RenderCSS(fontFamilyList);
 
     res.status(200).format({
       "text/css": async function () {

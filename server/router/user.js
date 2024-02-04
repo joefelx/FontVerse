@@ -26,6 +26,7 @@ router.post("/auth/signup", async (req, res) => {
         data: newUser,
         logged: true,
       });
+      return;
     }
 
     res.status(400).json({
