@@ -46,17 +46,24 @@ const useFont = () => {
     setCurrentFont(fonts[generateRandomNum(fonts.length)]);
   };
 
-  const addToCollection = (fontFamily) => {
-    !selectedFonts.includes(fontFamily) &&
+  const addToCollection = (font) => {
+    !selectedFonts.includes(font) &&
       dispatch({
         type: "SET_SELECTED_FONTS",
-        payload: [...selectedFonts, fontFamily],
+        payload: [...selectedFonts, font],
       });
   };
 
-  const removeFromCollection = (index) => {
-    const temp = [...selectedFonts];
-    temp.splice(index, 1);
+  const removeFromCollection = (fontName) => {
+    const temp = [];
+
+    for (let i = 0; i < selectedFonts.length; i++) {
+      if (selectedFonts[i] === fontName) {
+        continue;
+      }
+      temp.push(selectedFonts[i]);
+    }
+
     dispatch({
       type: "SET_SELECTED_FONTS",
       payload: temp,
