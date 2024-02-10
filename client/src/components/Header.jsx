@@ -157,40 +157,42 @@ const SearchBox = ({ searchFont, setSearch }) => {
 
 const ExtendedHeader = ({ show, selectedFonts, removeFromCollection }) => {
   return (
-    <div
-      className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
-        !show ? "hidden" : "block"
-      }`}
-    >
-      {/* user selection section */}
+    <>
       {selectedFonts.length > 0 && (
-        <div className="flex md:flex-row flex-col justify-between z-[10]">
-          {/* left */}
-          <div className="flex-1">
-            <span className=" text-xl">Selected</span>
-            {selectedFonts.map((font, index) => (
-              <FontSelected
-                key={index}
-                font={font}
-                removeFromCollection={removeFromCollection}
+        <div
+          className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
+            !show ? "hidden" : "block"
+          }`}
+        >
+          {/* user selection section */}
+          <div className="flex md:flex-row flex-col justify-between z-[10]">
+            {/* left */}
+            <div className="flex-1">
+              <span className=" text-xl">Selected</span>
+              {selectedFonts.map((font, index) => (
+                <FontSelected
+                  key={index}
+                  font={font}
+                  removeFromCollection={removeFromCollection}
+                />
+              ))}
+            </div>
+            {/* right */}
+            <div className="flex-1">
+              {/* copy link section */}
+              <CopyBox title="HTML" fontsList={selectedFonts} linktag="html" />
+              <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
+              {/* style guide section */}
+              <CopyBox
+                title="Style Guide"
+                fontsList={selectedFonts}
+                linktag="fontfamilies"
               />
-            ))}
-          </div>
-          {/* right */}
-          <div className="flex-1">
-            {/* copy link section */}
-            <CopyBox title="HTML" fontsList={selectedFonts} linktag="html" />
-            <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
-            {/* style guide section */}
-            <CopyBox
-              title="Style Guide"
-              fontsList={selectedFonts}
-              linktag="fontfamilies"
-            />
+            </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
@@ -231,26 +233,25 @@ function Header() {
   }, [selectedFonts]);
 
   return (
-    <nav className="sticky top-0 text-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
+    <nav className="sticky top-0 z-50 text-black bg-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
       {/* general header */}
-      <div className="bg-white w-full max-w-6xl flex flex-col justify-center items-center rounded-2xl">
+      <div
+        className={`bg-white w-full max-w-7xl my-2 flex flex-col justify-center items-center rounded-2xl  ${
+          !show && "shadow-md shadow-black/5"
+        }`}
+      >
         <div
-          className={`p-5 my-2 rounded-2xl w-full z-20 text-sm flex items-center ${
-            !show && "shadow-md shadow-black/5"
-          }`}
+          className="px-5 py-4 rounded-2xl w-full z-20 text-sm flex items-center justify-between"
           onClick={() => setShow(!show)}
         >
           {/* logo */}
-          <div className="flex items-center justify-center">
+          <div className="flex justify-center">
             <LogoB className="w-9 h-9" />
-            <span className="mx-1 text-2xl">FontVerse</span>
+            <span className="mx-1 text-3xl">FontVerse</span>
           </div>
           {/* links 1 and 2 */}
           <ul className="flex">
-            <li className="mx-3">Home</li>
-            <li className="mx-3">About</li>
-            <li className="mx-3">Fonts</li>
-            <li className="mx-3">License</li>
+            <li className="mx-3">Capsule</li>
           </ul>
         </div>
 

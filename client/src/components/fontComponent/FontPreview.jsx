@@ -1,16 +1,13 @@
 import fontWeightConversion from "../../utils/fontWeightConversion";
-import fontWeightMap from "../../data/fontweight";
 
-function FontPreview({ fontFamily, fontWeight }) {
+function FontPreview({ fontFamily, fontWeight, className }) {
   return (
-    <div className="w-full h-auto min-h-[110px] flex justify-center text-black my-10">
-      <div className="w-full max-w-6xl">
-        <span className="text-xl">
-          {fontWeightMap[fontWeightConversion(fontWeight)]} /{" "}
-          {fontWeightConversion(fontWeight)}
-        </span>
+    <div
+      className={`h-auto min-h-[110px] flex justify-center  text-lightwhite overflow-hidden ${className}`}
+    >
+      <div className="w-full">
         <h1
-          className={`my-5 text-9xl outline-none `}
+          className={`my-5 text-7xl outline-none`}
           suppressContentEditableWarning={true}
           contentEditable={true}
           spellCheck={false}

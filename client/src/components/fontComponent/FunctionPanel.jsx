@@ -25,7 +25,7 @@ function FunctionPanel() {
   };
 
   return (
-    <div className="w-full flex justify-between items-center my-5">
+    <div className="w-full flex justify-between items-center my-5 text-lit">
       {/* left button */}
       <button
         className="border-2 border-black w-14 h-14 rounded-full flex items-center justify-center text-3xl"

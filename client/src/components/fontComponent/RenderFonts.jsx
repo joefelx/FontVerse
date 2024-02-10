@@ -11,11 +11,13 @@ function RenderFonts() {
     <>
       {currentFont
         ? currentFont.fontWeights?.map((f, index) => (
-            <FontPreview
-              key={index}
-              fontFamily={currentFont.fontName}
-              fontWeight={f.fontWeight}
-            />
+            <>
+              <FontPreview
+                key={index}
+                fontFamily={currentFont.fontName}
+                fontWeight={f.fontWeight}
+              />
+            </>
           ))
         : "No font found"}
     </>

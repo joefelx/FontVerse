@@ -1,9 +1,7 @@
-import { BsGithub, BsTwitter, BsInstagram } from "react-icons/bs";
-
 function Footer() {
   return (
-    <div className="w-full h-auto flex justify-center font-[Mattone] my-5">
-      <div className="w-full h-auto max-w-6xl bg-white px-16 pt-10 rounded-3xl border border-tan">
+    <div className="w-full h-full flex justify-center font-[Mattone] my-5">
+      <div className="w-full h-auto max-w-7xl bg-black text-lightwhite px-16 pt-10 rounded-3xl border border-tan">
         {/* top */}
         <div className="flex justify-between items-center">
           {/* left */}

@@ -11,7 +11,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-lightwhite">
+    <div className="h-full w-full bg-black">
       <Header />
       <div>
         <Routes>
