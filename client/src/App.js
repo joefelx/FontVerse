@@ -5,10 +5,9 @@ import useFont from "./hooks/useFont";
 import { useEffect } from "react";
 
 function App() {
-  const { fetchAllFonts, randomFetchFont } = useFont();
+  const { fetchAllFonts } = useFont();
   useEffect(() => {
     fetchAllFonts();
-    randomFetchFont();
   }, []);
 
   return (

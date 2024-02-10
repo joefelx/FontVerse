@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { FontContext } from "../context/FontContext";
-import axios from "../axios/axios";
 
 import { generateRandomNum } from "../utils";
 
@@ -10,16 +9,23 @@ const useFont = () => {
 
   const fetchFonts = async (type, value) => {
     if (type === "fontWeight") {
-      await axios.get("/font?fontWeight=400").then((res) => {
-        dispatch({ type: "SET_FONTS_LIST", payload: res.data });
-      });
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontWeight=400`)
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch({ type: "SET_FONTS_LIST", payload: data });
+        });
     } else if (type === "fontName") {
-      await axios.get(`/font?fontName=${value}`).then((res) => {
-        setCurrentFont(res.data[0]);
-      });
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setCurrentFont(data[0]);
+        });
     } else {
-      const { data } = await axios.get("/font/all");
-      dispatch({ type: "SET_FONTS_LIST", payload: data });
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/font/all`)
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch({ type: "SET_FONTS_LIST", payload: data });
+        });
     }
   };
 
@@ -28,10 +34,10 @@ const useFont = () => {
       .then((response) => response.json())
       .then((data) => {
         window.localStorage.setItem("fonts", JSON.stringify(data));
+        dispatch({ type: "SET_FONTS_LIST", payload: data });
       })
       .then(() => {
-        const fonts = window.localStorage.getItem("fonts");
-        dispatch({ type: "SET_FONTS_LIST", payload: JSON.parse(fonts) });
+        randomFetchFont();
       });
   };
 
