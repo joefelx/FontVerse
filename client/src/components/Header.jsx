@@ -6,9 +6,10 @@ import {
   FiSearch,
   BsChevronCompactDown,
 } from "../components/Icons";
+import { LogoB } from "./Logo";
 
 // Components Used inside the Header
-const FontSelected = ({ font, index, removeFromCollection }) => {
+const FontSelected = ({ font, removeFromCollection }) => {
   return (
     <div className="flex my-3 z-[10]">
       {/* checkbox */}
@@ -110,6 +111,89 @@ const CopyBox = ({ title, fontsList, linktag }) => {
   );
 };
 
+const Waves = ({ show }) => {
+  return (
+    <svg
+      height="256"
+      viewBox="0 0 1445 256"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`absolute w-full left-0 right-0 z-0 ${
+        !show ? "hidden" : "block"
+      }`}
+    >
+      <path
+        d="M1 110.5C1 110.5 87 68.3856 448.5 117.943C810 167.5 1444 134.5 1444 134.5"
+        stroke="#F8F6F3"
+        strokeWidth="2"
+      />
+      <path
+        d="M2.50024 33C2.50024 33 341.5 -39 721.75 33C1102 105 1441 33 1441 33"
+        stroke="#F8F6F3"
+        strokeWidth="2"
+      />
+      <path
+        d="M3.50024 201C3.50024 201 425 291.5 802 237C1179 182.5 1444 237 1444 237"
+        stroke="#F8F6F3"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+};
+
+const SearchBox = ({ searchFont, setSearch }) => {
+  return (
+    <div className="w-full h-16 flex items-center justify-between bg-white border-2 border-black rounded-3xl px-5 py-2 my-10 z-[10]">
+      <input
+        type="text"
+        placeholder="Search font"
+        className="w-full h-full outline-none text-base"
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <FiSearch className="ml-3 text-xl" onClick={searchFont} />
+    </div>
+  );
+};
+
+const ExtendedHeader = ({ show, selectedFonts, removeFromCollection }) => {
+  return (
+    <div
+      className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
+        !show ? "hidden" : "block"
+      }`}
+    >
+      {/* user selection section */}
+      {selectedFonts.length > 0 && (
+        <div className="flex md:flex-row flex-col justify-between z-[10]">
+          {/* left */}
+          <div className="flex-1">
+            <span className=" text-xl">Selected</span>
+            {selectedFonts.map((font, index) => (
+              <FontSelected
+                key={index}
+                font={font}
+                removeFromCollection={removeFromCollection}
+              />
+            ))}
+          </div>
+          {/* right */}
+          <div className="flex-1">
+            {/* copy link section */}
+            <CopyBox title="HTML" fontsList={selectedFonts} linktag="html" />
+            <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
+            {/* style guide section */}
+            <CopyBox
+              title="Style Guide"
+              fontsList={selectedFonts}
+              linktag="fontfamilies"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 function Header() {
   const { selectedFonts, removeFromCollection, fetchFonts } = useFont();
   const [show, setShow] = useState(false);
@@ -147,145 +231,34 @@ function Header() {
   }, [selectedFonts]);
 
   return (
-    <nav className="sticky top-0 bg-white text-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
-      <div className="w-full max-w-6xl">
-        {/* general header */}
-        <div className={`${show && "border-b-2 border-gray"}`}>
-          <div className=" z-20 text-sm flex flex-col md:flex-row items-center justify-center">
-            {/* links 1 and 2 */}
-            <ul className="md:flex items-center hidden">
-              <li className="mx-3">Home</li>
-              <li className="mx-3 text-xl">~</li>
-              <li className="mx-3">About</li>
-            </ul>
-            {/* logo */}
-            <div className="mx-6 md:my-0 my-5">
-              <svg
-                width="70"
-                height="55.26"
-                viewBox="0 0 171 146"
-                fill="#212121"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M69.3243 145.7L0 0.574982H18.4865L87.8108 145.7L152.514 0.574982H171L106.297 145.7H87.8108H69.3243Z"
-                  fill="#212121"
-                />
-                <path
-                  d="M145.584 0.574982H25.4189L32.3514 17.5062H138.652L145.584 0.574982Z"
-                  fill="#212121"
-                />
-                <path
-                  d="M145.581 0.574982H25.4189L32.3514 17.5062H138.652L145.581 0.574982Z"
-                  fill="#212121"
-                />
-                <path
-                  d="M117.851 63.4626H55.1638L62.3922 77.9751H110.919L117.851 63.4626Z"
-                  fill="#212121"
-                />
-              </svg>
-            </div>
-            {/* links 3 and 4 */}
-            <ul className="md:flex items-center hidden">
-              <li className="mx-3">Fonts</li>
-              <li className="mx-3 text-xl">~</li>
-              <li className="mx-3">License</li>
-            </ul>
-
-            {/* mobile view general header */}
-
-            <ul className="show lg:hidden md:hidden text-base text-center mb-5">
-              <li className="my-2">Home</li>
-              <li className="my-2">About</li>
-              <li className="my-2">Fonts</li>
-              <li className="my-2">License</li>
-            </ul>
-          </div>
-          <div
-            className="w-full flex justify-center items-center text-3xl z-10"
-            onClick={() => setShow(!show)}
-          >
-            <BsChevronCompactDown className="text-tan" />
-          </div>
-        </div>
-        {/* background wave pattern */}
-        {selectedFonts.length > 0 && (
-          <svg
-            height="256"
-            viewBox="0 0 1445 256"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={`absolute w-full left-0 right-0 z-0 ${
-              !show ? "hidden" : "block"
-            }`}
-          >
-            <path
-              d="M1 110.5C1 110.5 87 68.3856 448.5 117.943C810 167.5 1444 134.5 1444 134.5"
-              stroke="#F8F6F3"
-              strokeWidth="2"
-            />
-            <path
-              d="M2.50024 33C2.50024 33 341.5 -39 721.75 33C1102 105 1441 33 1441 33"
-              stroke="#F8F6F3"
-              strokeWidth="2"
-            />
-            <path
-              d="M3.50024 201C3.50024 201 425 291.5 802 237C1179 182.5 1444 237 1444 237"
-              stroke="#F8F6F3"
-              strokeWidth="2"
-            />
-          </svg>
-        )}
-
-        {/* extended header */}
+    <nav className="sticky top-0 text-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
+      {/* general header */}
+      <div className="bg-white w-full max-w-6xl flex flex-col justify-center items-center rounded-2xl">
         <div
-          className={`extended-header mb-10 md:mx-0 mx-3 relative z-[10] ${
-            !show ? "hidden" : "block"
+          className={`p-5 my-2 rounded-2xl w-full z-20 text-sm flex items-center ${
+            !show && "shadow-md shadow-black/5"
           }`}
+          onClick={() => setShow(!show)}
         >
-          {/* search */}
-          <div className="w-full h-16 flex items-center justify-between bg-white border-2 border-black rounded-3xl px-5 py-2 my-10 z-[10]">
-            <input
-              type="text"
-              placeholder="Search font"
-              className="w-full h-full outline-none text-base"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <FiSearch className="ml-3 text-xl" onClick={searchFont} />
+          {/* logo */}
+          <div className="flex items-center justify-center">
+            <LogoB className="w-9 h-9" />
+            <span className="mx-1 text-2xl">FontVerse</span>
           </div>
-          {/* user selection section */}
-          {selectedFonts.length > 0 && (
-            <div className="flex md:flex-row flex-col justify-between z-[10]">
-              {/* left */}
-              <div className="flex-1">
-                <span className=" text-xl">Selected</span>
-                {selectedFonts.map((font, index) => (
-                  <FontSelected
-                    key={index}
-                    font={font}
-                    removeFromCollection={removeFromCollection}
-                  />
-                ))}
-              </div>
-              {/* right */}
-              <div className="flex-1">
-                {/* copy link section */}
-                <CopyBox
-                  title="HTML"
-                  fontsList={selectedFonts}
-                  linktag="html"
-                />
-                <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
-                {/* style guide section */}
-                <CopyBox
-                  title="Style Guide"
-                  fontsList={selectedFonts}
-                  linktag="fontfamilies"
-                />
-              </div>
-            </div>
-          )}
+          {/* links 1 and 2 */}
+          <ul className="flex">
+            <li className="mx-3">Home</li>
+            <li className="mx-3">About</li>
+            <li className="mx-3">Fonts</li>
+            <li className="mx-3">License</li>
+          </ul>
         </div>
+
+        <ExtendedHeader
+          show={show}
+          selectedFonts={selectedFonts}
+          removeFromCollection={removeFromCollection}
+        />
       </div>
     </nav>
   );
