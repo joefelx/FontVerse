@@ -1,9 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages";
 import { Header, Footer } from "./components";
-import useFont from "./hooks/useFont";
-import { useEffect } from "react";
-import { generateRandomNum } from "./utils";
 
 function App() {
   return (

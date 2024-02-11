@@ -1,8 +1,6 @@
 import { useState } from "react";
 import useFont from "../hooks/useFont";
 import sortArrayByFontWeight from "../utils/sortArrayByFontWeight";
-import fontWeightMap from "../data/fontweight";
-import { fontWeightConversion } from "../utils";
 import TextArea from "./fontTools/TextArea";
 import TopBar from "./fontTools/TopBar";
 import FontWeight from "./fontTools/FontWeight";
@@ -19,7 +17,7 @@ function FontLayout() {
   sortArrayByFontWeight(currentFont?.fontWeights);
 
   return (
-    <div className="w-full h-auto font-[Mattone] bg-black text-white px-16 rounded-3xl border border-tan overflow-hidden">
+    <div className="w-full max-w-7xl h-auto font-[Mattone] bg-black text-white px-16 rounded-3xl border border-tan overflow-hidden">
       <div className=" text-black my-7 mb-10 py-5 overflow-hidden">
         <TopBar
           currentFont={currentFont}

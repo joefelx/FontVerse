@@ -21,10 +21,12 @@ function Home() {
   }, []);
 
   return (
-    <div className="h-auto w-full bg-black">
-      <Font />
-      <FontLayout />
-      <FontAbout />
+    <div className="flex flex-col justify-center items-center h-auto w-full bg-black">
+      <div className="max-w-7xl">
+        <Font />
+        <FontLayout />
+        <FontAbout />
+      </div>
     </div>
   );
 }
