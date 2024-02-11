@@ -1,6 +1,7 @@
 import FontPreview from "./FontPreview";
 import useFont from "../../hooks/useFont";
 import sortArrayByFontWeight from "../../utils/sortArrayByFontWeight";
+import FunctionPanel from "./FunctionPanel";
 
 function RenderFonts() {
   const { currentFont } = useFont();
@@ -8,7 +9,8 @@ function RenderFonts() {
   sortArrayByFontWeight(currentFont.fontWeights);
 
   return (
-    <>
+    <div className="ml-5 flex-[3]">
+      <FunctionPanel />
       {currentFont
         ? currentFont.fontWeights?.map((f, index) => (
             <>
@@ -20,7 +22,7 @@ function RenderFonts() {
             </>
           ))
         : "No font found"}
-    </>
+    </div>
   );
 }
 

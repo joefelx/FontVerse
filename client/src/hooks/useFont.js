@@ -30,20 +30,19 @@ const useFont = () => {
   };
 
   const fetchAllFonts = async () => {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/font/all`)
-      .then((response) => response.json())
-      .then((data) => {
-        window.localStorage.setItem("fonts", JSON.stringify(data));
-        dispatch({ type: "SET_FONTS_LIST", payload: data });
-      })
-      .then(() => {
-        randomFetchFont();
-      });
-  };
+    console.log("fetch fonts");
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/font/all`
+    );
+    const data = await response.json();
 
-  const randomFetchFont = async () => {
-    const fonts = JSON.parse(window.localStorage.getItem("fonts"));
-    setCurrentFont(fonts[generateRandomNum(fonts.length)]);
+    // await dispatch({ type: "SET_FONTS_LIST", payload: data });
+
+    // await dispatch({
+    //   type: "SET_CURRENT_FONT",
+    //   payload: data[generateRandomNum(data.length)],
+    // });
+    return data;
   };
 
   const addToCollection = (font) => {
@@ -71,7 +70,9 @@ const useFont = () => {
   };
 
   const setCurrentFont = (font) => {
+    // console.log(font);
     dispatch({ type: "SET_CURRENT_FONT", payload: font });
+    console.log(currentFont);
   };
 
   return {
@@ -80,10 +81,11 @@ const useFont = () => {
     fontsList,
     fetchFonts,
     fetchAllFonts,
-    randomFetchFont,
+    // randomFetchFont,
     setCurrentFont,
     addToCollection,
     removeFromCollection,
+    dispatch,
   };
 };
 

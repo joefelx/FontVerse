@@ -3,13 +3,9 @@ import { Home } from "./pages";
 import { Header, Footer } from "./components";
 import useFont from "./hooks/useFont";
 import { useEffect } from "react";
+import { generateRandomNum } from "./utils";
 
 function App() {
-  const { fetchAllFonts } = useFont();
-  useEffect(() => {
-    fetchAllFonts();
-  }, []);
-
   return (
     <div className="h-full w-full bg-black">
       <Header />

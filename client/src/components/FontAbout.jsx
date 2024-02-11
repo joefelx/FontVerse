@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { memo } from "react";
 import { FontContext } from "../context/FontContext";
 
 const FontDetail = ({ title, name, currentFont }) => {
@@ -45,4 +46,4 @@ function FontAbout() {
   );
 }
 
-export default FontAbout;
+export default memo(FontAbout);

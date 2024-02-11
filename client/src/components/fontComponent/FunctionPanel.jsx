@@ -1,53 +1,21 @@
-import { useState } from "react";
-import { HiOutlineArrowLeft, HiOutlineArrowRight } from "../Icons";
-
 import useFont from "../../hooks/useFont";
 
 function FunctionPanel() {
-  const [prev, setPrev] = useState({});
-  const {
-    selectedFonts,
-    currentFont,
-    randomFetchFont,
-    addToCollection,
-    setCurrentFont,
-  } = useFont();
-
-  const nextFont = async () => {
-    setPrev(currentFont);
-    randomFetchFont();
-  };
-
-  const previousFont = async () => {
-    if (Object.keys(prev).length > 0) {
-      setCurrentFont(prev);
-    }
-  };
+  const { selectedFonts, currentFont, addToCollection } = useFont();
 
   return (
     <div className="w-full flex justify-between items-center my-5 text-lit">
-      {/* left button */}
       <button
-        className="border-2 border-black w-14 h-14 rounded-full flex items-center justify-center text-3xl"
-        onClick={previousFont}
+        className={`${
+          selectedFonts.includes(currentFont?.fontName)
+            ? "text-lightwhite border border-lightwhite rounded-2xl px-3"
+            : "text-black bg-tan"
+        } text-black text-base border-2 border-black rounded-2xl px-5 hover:bg-tan`}
+        onClick={() => addToCollection(currentFont?.fontName)}
       >
-        <HiOutlineArrowLeft />
-      </button>
-      {/* add button */}
-
-      <button
-        className="text-base border-2 border-black rounded-3xl h-14 px-5 hover:bg-tan"
-        onClick={() => addToCollection(currentFont.fontName)}
-      >
-        {selectedFonts.includes(currentFont.fontName) ? "SELECTED" : "ADD FONT"}
-      </button>
-
-      {/* right button */}
-      <button
-        className="border-2 border-black w-14 h-14 rounded-full flex items-center justify-center text-3xl"
-        onClick={nextFont}
-      >
-        <HiOutlineArrowRight />
+        {selectedFonts.includes(currentFont?.fontName)
+          ? "SELECTED"
+          : "ADD FONT"}
       </button>
     </div>
   );
