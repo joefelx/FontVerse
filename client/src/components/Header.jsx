@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import copy from "copy-to-clipboard";
+import toast from "react-hot-toast";
 import useFont from "../hooks/useFont";
 import {
   IoCopyOutline,
@@ -14,8 +15,8 @@ const FontSelected = ({ font, removeFromCollection }) => {
     <div className="flex my-3 z-[10]">
       {/* checkbox */}
       <svg
-        width="32"
-        height="32"
+        width="25"
+        height="25"
         viewBox="0 0 32 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +32,7 @@ const FontSelected = ({ font, removeFromCollection }) => {
           strokeLinejoin="round"
         />
       </svg>
-      <span className="text-4xl ml-5">{font}</span>
+      <span className="text-2xl ml-5">{font}</span>
     </div>
   );
 };
@@ -67,19 +68,19 @@ const CopyBox = ({ title, fontsList, linktag }) => {
   return (
     <div className="mb-10 z-[10]">
       <div className="flex justify-between items-center">
-        <span className="text-xl">{title}</span>
+        <span className="text-md">{title}</span>
         <IoCopyOutline
-          className="text-xl"
+          className="text-lg"
           onClick={() => {
             copy(copyLink);
-            alert("copied");
+            toast.success("Copied!");
           }}
         />
       </div>
 
-      <div className="my-3 bg-tan p-5 rounded-3xl">
+      <div className="my-3 border border-tan bg-tan  p-4 rounded-3xl">
         {linktag === "html" ? (
-          <span className="text-sm flex-wrap">
+          <span className="text-xs flex-wrap">
             {`
             <link
               rel="stylesheet"
@@ -91,7 +92,7 @@ const CopyBox = ({ title, fontsList, linktag }) => {
             `}
           </span>
         ) : linktag === "css" ? (
-          <span className="text-sm flex-wrap">
+          <span className="text-xs flex-wrap">
             {`
           
             @import url("${
@@ -101,7 +102,7 @@ const CopyBox = ({ title, fontsList, linktag }) => {
           </span>
         ) : (
           fontsList.map((f) => (
-            <span className="text-sm flex-wrap">
+            <span className="text-xs flex-wrap">
               {`font-family: ${f}; `} <br />
             </span>
           ))
@@ -111,39 +112,9 @@ const CopyBox = ({ title, fontsList, linktag }) => {
   );
 };
 
-const Waves = ({ show }) => {
-  return (
-    <svg
-      height="256"
-      viewBox="0 0 1445 256"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={`absolute w-full left-0 right-0 z-0 ${
-        !show ? "hidden" : "block"
-      }`}
-    >
-      <path
-        d="M1 110.5C1 110.5 87 68.3856 448.5 117.943C810 167.5 1444 134.5 1444 134.5"
-        stroke="#F8F6F3"
-        strokeWidth="2"
-      />
-      <path
-        d="M2.50024 33C2.50024 33 341.5 -39 721.75 33C1102 105 1441 33 1441 33"
-        stroke="#F8F6F3"
-        strokeWidth="2"
-      />
-      <path
-        d="M3.50024 201C3.50024 201 425 291.5 802 237C1179 182.5 1444 237 1444 237"
-        stroke="#F8F6F3"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
-
 const SearchBox = ({ searchFont, setSearch }) => {
   return (
-    <div className="w-full h-16 flex items-center justify-between bg-white border-2 border-black rounded-3xl px-5 py-2 my-10 z-[10]">
+    <div className="search w-full flex items-center justify-between bg-white rounded-2xl px-5 py-4 z-[10]">
       <input
         type="text"
         placeholder="Search font"
@@ -157,68 +128,46 @@ const SearchBox = ({ searchFont, setSearch }) => {
 
 const ExtendedHeader = ({ show, selectedFonts, removeFromCollection }) => {
   return (
-    <>
-      {selectedFonts.length > 0 && (
-        <div
-          className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
-            !show ? "hidden" : "block"
-          }`}
-        >
-          {/* user selection section */}
-          <div className="flex md:flex-row flex-col justify-between z-[10]">
-            {/* left */}
-            <div className="flex-1">
-              <span className=" text-xl">Selected</span>
-              {selectedFonts.map((font, index) => (
-                <FontSelected
-                  key={index}
-                  font={font}
-                  removeFromCollection={removeFromCollection}
-                />
-              ))}
-            </div>
-            {/* right */}
-            <div className="flex-1">
-              {/* copy link section */}
-              <CopyBox title="HTML" fontsList={selectedFonts} linktag="html" />
-              <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
-              {/* style guide section */}
-              <CopyBox
-                title="Style Guide"
-                fontsList={selectedFonts}
-                linktag="fontfamilies"
-              />
-            </div>
-          </div>
+    <div
+      className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
+        !show ? "hidden" : "block"
+      }`}
+    >
+      {/* user selection section */}
+      <div className="flex md:flex-row flex-col justify-between z-[10]">
+        {/* left */}
+        <div className="flex-1">
+          <span className=" text-xl">Selected</span>
+          {selectedFonts.map((font, index) => (
+            <FontSelected
+              key={index}
+              font={font}
+              removeFromCollection={removeFromCollection}
+            />
+          ))}
         </div>
-      )}
-    </>
+        {/* right */}
+        <div className="flex-1">
+          {/* copy link section */}
+          <CopyBox title="HTML" fontsList={selectedFonts} linktag="html" />
+          <CopyBox title="CSS" fontsList={selectedFonts} linktag="css" />
+          {/* style guide section */}
+          <CopyBox
+            title="Style Guide"
+            fontsList={selectedFonts}
+            linktag="fontfamilies"
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
 function Header() {
   const { selectedFonts, removeFromCollection, fetchFonts } = useFont();
   const [show, setShow] = useState(false);
+  const [showSearch, setshowSearch] = useState(false);
   const [search, setSearch] = useState("");
-
-  function showHeader() {
-    const header = document.querySelector(".header");
-    const extendedHeader = document.querySelector(".extended-header");
-
-    // window.onscroll = () => {
-    //   setShow(false);
-    // };
-
-    header.addEventListener("mouseover", () => {
-      setShow(true);
-    });
-    extendedHeader.addEventListener("mouseover", () => {
-      setShow(true);
-    });
-    extendedHeader.addEventListener("mouseout", () => {
-      setShow(false);
-    });
-  }
 
   function searchFont() {
     fetchFonts("fontName", search);
@@ -233,33 +182,43 @@ function Header() {
   }, [selectedFonts]);
 
   return (
-    <nav className="sticky top-0 z-50 text-black bg-black w-full h-auto flex justify-center font-[Mattone] cursor-pointer">
+    <nav className="header sticky top-0 z-50 text-black bg-black w-full h-auto flex justify-center font-[Mattone] ">
       {/* general header */}
       <div
-        className={`bg-white w-full max-w-7xl my-2 flex flex-col justify-center items-center rounded-2xl  ${
+        className={`bg-white w-full max-w-6xl my-2 flex flex-col justify-center items-center rounded-2xl  ${
           !show && "shadow-md shadow-black/5"
         }`}
       >
-        <div
-          className="px-5 py-4 rounded-2xl w-full z-20 text-sm flex items-center justify-between"
-          onClick={() => setShow(!show)}
-        >
+        <div className="px-5 py-4 rounded-2xl w-full z-20 text-sm flex items-center justify-between">
           {/* logo */}
-          <div className="flex justify-center">
-            <LogoB className="w-9 h-9" />
-            <span className="mx-1 text-3xl">FontVerse</span>
+          <div className="flex justify-center items-center">
+            <LogoB className="w-8 h-8" />
+            <span className="mx-1 text-2xl">FontVerse</span>
           </div>
           {/* links 1 and 2 */}
-          <ul className="flex">
-            <li className="mx-3">Capsule</li>
+          <ul className="flex gap-2">
+            <li
+              className=" cursor-pointer"
+              onClick={() => setshowSearch(!showSearch)}
+            >
+              Search
+            </li>
+            <li className=" cursor-pointer" onClick={() => setShow(!show)}>
+              Capsule
+            </li>
           </ul>
         </div>
 
-        <ExtendedHeader
-          show={show}
-          selectedFonts={selectedFonts}
-          removeFromCollection={removeFromCollection}
-        />
+        {selectedFonts.length > 0 && (
+          <ExtendedHeader
+            show={show}
+            selectedFonts={selectedFonts}
+            removeFromCollection={removeFromCollection}
+          />
+        )}
+        {showSearch && (
+          <SearchBox searchFont={searchFont} setSearch={setSearch} />
+        )}
       </div>
     </nav>
   );

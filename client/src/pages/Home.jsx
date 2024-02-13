@@ -6,7 +6,7 @@ import { generateRandomNum } from "../utils";
 import useFont from "../hooks/useFont";
 
 function Home() {
-  const { fetchAllFonts, dispatch } = useFont();
+  const { fetchAllFonts, fontsList, dispatch } = useFont();
 
   useEffect(() => {
     (async () => {
@@ -22,11 +22,10 @@ function Home() {
 
   return (
     <div className="flex flex-col justify-center items-center h-auto w-full bg-black">
-      <div className="max-w-7xl">
-        <Font />
-        <FontLayout />
-        <FontAbout />
-      </div>
+      {/* <Font /> */}
+      {fontsList.map((f) => (
+        <FontLayout currentFont={f} />
+      ))}
     </div>
   );
 }

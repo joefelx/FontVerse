@@ -6,22 +6,25 @@ import TopBar from "./fontTools/TopBar";
 import FontWeight from "./fontTools/FontWeight";
 import FontAlign from "./fontTools/FontAlign";
 import FontCasing from "./fontTools/FontCasing";
+import FontSize from "./fontTools/FontSize";
 
-function FontLayout() {
-  const { currentFont, selectedFonts, addToCollection } = useFont();
+function FontLayout({ currentFont }) {
+  const { selectedFonts, addToCollection } = useFont();
 
   const [fontWeight, setfontWeight] = useState("500");
+  const [fontSize, setFontSize] = useState("36");
   const [alignment, setAlignment] = useState("left");
   const [letterCase, setLetterCase] = useState("lower");
 
   sortArrayByFontWeight(currentFont?.fontWeights);
 
   return (
-    <div className="w-full max-w-7xl h-auto font-[Mattone] bg-black text-white px-16 rounded-3xl border border-tan overflow-hidden">
-      <div className=" text-black my-7 mb-10 py-5 overflow-hidden">
+    <div className="p-12 my-10 w-full max-w-6xl h-auto flex flex-col gap-6 font-[Mattone] bg-black text-white rounded-3xl border border-tan overflow-hidden">
+      <div className=" text-black overflow-hidden">
         <TopBar
           currentFont={currentFont}
           fontWeight={fontWeight}
+          fontSize={fontSize}
           addToCollection={addToCollection}
           selectedFonts={selectedFonts}
         />
@@ -29,18 +32,24 @@ function FontLayout() {
         <TextArea
           currentFont={currentFont}
           fontWeight={fontWeight}
+          fontSize={fontSize}
           alignment={alignment}
           letterCase={letterCase}
         />
       </div>
 
-      {/* Font Weight */}
-      <FontWeight
-        currentFont={currentFont}
-        fontWeight={fontWeight}
-        setfontWeight={setfontWeight}
-      />
-      <div className="flex justify-between my-7">
+      <div className="flex justify-between">
+        {/* Font Weight */}
+        <FontWeight
+          currentFont={currentFont}
+          fontWeight={fontWeight}
+          setfontWeight={setfontWeight}
+        />
+
+        <FontSize size={fontSize} setSize={setFontSize} />
+      </div>
+
+      <div className="flex justify-between">
         <FontAlign alignment={alignment} setAlignment={setAlignment} />
         <FontCasing letterCase={letterCase} setLetterCase={setLetterCase} />
       </div>

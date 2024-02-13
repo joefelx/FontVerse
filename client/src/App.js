@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages";
 import { Header, Footer } from "./components";
+import { Toaster } from "react-hot-toast"
 
 function App() {
   return (
     <div className="h-full w-full bg-black">
+      <Toaster />
       <Header />
       <div>
         <Routes>

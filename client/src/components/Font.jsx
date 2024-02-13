@@ -1,10 +1,14 @@
 import RenderFonts from "./fontComponent/RenderFonts";
 import FontsListPanel from "./fontComponent/FontsListPanel";
 
+import useFont from "../hooks/useFont";
+
 function Font() {
+  const { currentFont } = useFont();
+
   return (
-    <div className="w-full h-auto min-h-[110px] my-5  flex justify-between font-[Mattone] text-lightwhite">
-      <FontsListPanel />
+    <div className="h-auto min-h-[110px] my-5 flex justify-center  font-[Mattone] text-secondary">
+      {/* <FontsListPanel /> */}
       <RenderFonts />
     </div>
   );

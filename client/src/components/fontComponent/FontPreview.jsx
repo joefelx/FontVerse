@@ -4,16 +4,16 @@ import fontWeightMap from "../../data/fontweight";
 function FontPreview({ fontFamily, fontWeight, className }) {
   return (
     <div
-      className={`h-auto min-h-[110px] my-4 border-b border-lightwhite flex justify-center  text-lightwhite overflow-hidden ${className}`}
+      className={`h-auto min-h-[110px] w-3xl max-w-3xl flex justify-start items-center flex-wrap my-4 text-secondary overflow-hidden ${className}`}
     >
-      <div className="w-full">
-        <span className="text-xl text-lightwhite">
+      <div className="w-full overflow-hidden">
+        <span className="text-md text-gray">
           {fontWeightMap[fontWeightConversion(fontWeight)]} /{" "}
           {fontWeightConversion(fontWeight)}
         </span>
 
         <h1
-          className={`my-5 text-9xl outline-none`}
+          className={`my-2 text-6xl outline-none overflow-hidden`}
           suppressContentEditableWarning={true}
           contentEditable={true}
           spellCheck={false}

@@ -1,7 +1,13 @@
 import { useState } from "react";
 
-function TextArea({ currentFont, fontWeight, alignment, letterCase }) {
-  const [text, setText] = useState(currentFont?.fontName || "Write your test");
+function TextArea({
+  currentFont,
+  fontWeight,
+  fontSize,
+  alignment,
+  letterCase,
+}) {
+  const [text, setText] = useState(currentFont.fontName);
 
   function autoExpandTextBox() {
     const textarea = document.getElementById("textarea");
@@ -17,6 +23,7 @@ function TextArea({ currentFont, fontWeight, alignment, letterCase }) {
     <textarea
       spellCheck={false}
       id="textarea"
+      placeholder="Write your text"
       style={{
         fontFamily: currentFont?.fontName,
         fontWeight:
@@ -37,8 +44,9 @@ function TextArea({ currentFont, fontWeight, alignment, letterCase }) {
             : fontWeight === "800"
             ? 800
             : 900,
+        fontSize: fontSize + "px",
       }}
-      className={`outline-none mt-4 h-auto flex w-full bg-black text-white ${
+      className={`outline-none mt-10 h-auto min-h-20 flex w-full bg-black text-white placeholder:text-gray ${
         alignment === "right"
           ? " text-right"
           : alignment === "center"

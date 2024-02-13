@@ -1,10 +1,10 @@
 function FontCasing({ letterCase, setLetterCase }) {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <p>Letter Case</p>
-      <div className="grid grid-flow-col gap-5 my-5 text-lg">
+      <div className="grid grid-flow-col gap-5 text-md">
         <button
-          className={`p-2 rounded-lg ${
+          className={`px-2 py-1 rounded-3xl ${
             letterCase === "upper" && "bg-tan text-black"
           }`}
           onClick={() => setLetterCase("upper")}
@@ -12,7 +12,7 @@ function FontCasing({ letterCase, setLetterCase }) {
           UPPER CASE
         </button>
         <button
-          className={`p-2 rounded-lg ${
+          className={`px-2 py-1 rounded-3xl ${
             letterCase === "lower" && "bg-tan text-black"
           }`}
           onClick={() => setLetterCase("lower")}
@@ -20,7 +20,7 @@ function FontCasing({ letterCase, setLetterCase }) {
           lower case
         </button>
         <button
-          className={`p-2 rounded-lg ${
+          className={`px-2 py-1 rounded-3xl ${
             letterCase === "cap" && "bg-tan text-black"
           }`}
           onClick={() => setLetterCase("cap")}
