@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import toast from "react-hot-toast";
 import useFont from "../hooks/useFont";
-import {
-  IoCopyOutline,
-  FiSearch,
-  BsChevronCompactDown,
-} from "../components/Icons";
-import { LogoB } from "./Logo";
+import { IoCopyOutline, FiSearch } from "../components/Icons";
+
+import { CgClose } from "react-icons/cg";
+import { PiRocketBold } from "react-icons/pi";
+import { LogoBG } from "./Logo";
 
 // Components Used inside the Header
 const FontSelected = ({ font, removeFromCollection }) => {
@@ -26,7 +25,7 @@ const FontSelected = ({ font, removeFromCollection }) => {
       >
         <path
           d="M8.5 16L14.125 21.625L23.5 10.375M1 25V7C1 4.9 1 3.85 1.40875 3.0475C1.76875 2.34063 2.34063 1.76875 3.0475 1.40875C3.85 1 4.9 1 7 1H25C27.1 1 28.15 1 28.9506 1.40875C29.6575 1.76875 30.2312 2.34063 30.5912 3.0475C31 3.84812 31 4.89812 31 6.99438V25.0075C31 27.1038 31 28.1519 30.5912 28.9525C30.231 29.6582 29.6567 30.2318 28.9506 30.5912C28.15 31 27.1019 31 25.0056 31H6.99438C4.89812 31 3.84812 31 3.0475 30.5912C2.34192 30.2317 1.76827 29.6581 1.40875 28.9525C1 28.15 1 27.1 1 25Z"
-          stroke="#212121"
+          stroke="#00a6ff"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -68,7 +67,7 @@ const CopyBox = ({ title, fontsList, linktag }) => {
   return (
     <div className="mb-10 z-[10]">
       <div className="flex justify-between items-center">
-        <span className="text-md">{title}</span>
+        <span className="text-md text-gray">{title}</span>
         <IoCopyOutline
           className="text-lg"
           onClick={() => {
@@ -78,7 +77,7 @@ const CopyBox = ({ title, fontsList, linktag }) => {
         />
       </div>
 
-      <div className="my-3 border border-tan bg-tan  p-4 rounded-3xl">
+      <div className="my-3 bg-darkGray text-white p-4 rounded-3xl">
         {linktag === "html" ? (
           <span className="text-xs flex-wrap">
             {`
@@ -114,11 +113,11 @@ const CopyBox = ({ title, fontsList, linktag }) => {
 
 const SearchBox = ({ searchFont, setSearch }) => {
   return (
-    <div className="search w-full flex items-center justify-between bg-white rounded-2xl px-5 py-4 z-[10]">
+    <div className="search w-full flex items-center justify-between text-white border border-tan rounded-2xl px-5 py-4 z-[10]">
       <input
         type="text"
         placeholder="Search font"
-        className="w-full h-full outline-none text-base"
+        className="w-full h-full bg-transparent outline-none text-base"
         onChange={(e) => setSearch(e.target.value)}
       />
       <FiSearch className="ml-3 text-xl" onClick={searchFont} />
@@ -137,7 +136,7 @@ const ExtendedHeader = ({ show, selectedFonts, removeFromCollection }) => {
       <div className="flex md:flex-row flex-col justify-between z-[10]">
         {/* left */}
         <div className="flex-1">
-          <span className=" text-xl">Selected</span>
+          <span className="text-gray text-xl">Selected</span>
           {selectedFonts.map((font, index) => (
             <FontSelected
               key={index}
@@ -182,32 +181,39 @@ function Header() {
   }, [selectedFonts]);
 
   return (
-    <nav className="header sticky top-0 z-50 text-black bg-black w-full h-auto flex justify-center font-[Mattone] ">
+    <nav className="header sticky top-0 z-50 text-white bg-transparent  w-full h-auto flex justify-center font-[Mattone] ">
       {/* general header */}
       <div
-        className={`bg-white w-full max-w-6xl my-2 flex flex-col justify-center items-center rounded-2xl  ${
+        className={`bg-black/50 backdrop-blur-lg w-full max-w-6xl my-2 flex flex-col justify-center items-center rounded-2xl  ${
           !show && "shadow-md shadow-black/5"
         }`}
       >
         <div className="px-5 py-4 rounded-2xl w-full z-20 text-sm flex items-center justify-between">
           {/* logo */}
           <div className="flex justify-center items-center">
-            <LogoB className="w-8 h-8" />
+            <LogoBG className="w-8 h-8" />
             <span className="mx-1 text-2xl">FontVerse</span>
           </div>
           {/* links 1 and 2 */}
-          <ul className="flex gap-2">
+          <ul className="flex gap-4 text-2xl">
             <li
-              className=" cursor-pointer"
+              className="hover:text-tan cursor-pointer"
               onClick={() => setshowSearch(!showSearch)}
             >
-              Search
+              <FiSearch />
             </li>
-            <li className=" cursor-pointer" onClick={() => setShow(!show)}>
-              Capsule
+            <li
+              className="hover:text-tan cursor-pointer"
+              onClick={() => setShow(!show)}
+            >
+              {show ? <CgClose className="text-2xl" /> : <PiRocketBold />}
             </li>
           </ul>
         </div>
+
+        {showSearch && (
+          <SearchBox searchFont={searchFont} setSearch={setSearch} />
+        )}
 
         {selectedFonts.length > 0 && (
           <ExtendedHeader
@@ -215,9 +221,6 @@ function Header() {
             selectedFonts={selectedFonts}
             removeFromCollection={removeFromCollection}
           />
-        )}
-        {showSearch && (
-          <SearchBox searchFont={searchFont} setSearch={setSearch} />
         )}
       </div>
     </nav>

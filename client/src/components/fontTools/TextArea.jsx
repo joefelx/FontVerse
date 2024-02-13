@@ -46,7 +46,7 @@ function TextArea({
             : 900,
         fontSize: fontSize + "px",
       }}
-      className={`outline-none mt-10 h-auto min-h-20 flex w-full bg-black text-white placeholder:text-gray ${
+      className={`outline-none mt-10 h-auto flex w-full bg-black text-white placeholder:text-gray ${
         alignment === "right"
           ? " text-right"
           : alignment === "center"

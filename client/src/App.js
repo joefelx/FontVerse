@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast"
 
 function App() {
   return (
-    <div className="h-full w-full bg-black">
+    <div className="h-full w-full home">
       <Toaster />
       <Header />
       <div>

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 function FontSize({ size, setSize }) {
   //   const [size, setSize] = useState();
   return (
-    <div className="flex flex-col gap-3">
+    <div className="w-1/2 flex flex-col gap-3">
       <p>Size</p>
-      <div className="max-w-4xl">
+      <div className="w-full">
         <input
           type="range"
           id="size"

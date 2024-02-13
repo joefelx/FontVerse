@@ -12,14 +12,14 @@ function FontLayout({ currentFont }) {
   const { selectedFonts, addToCollection } = useFont();
 
   const [fontWeight, setfontWeight] = useState("500");
-  const [fontSize, setFontSize] = useState("36");
+  const [fontSize, setFontSize] = useState("70");
   const [alignment, setAlignment] = useState("left");
   const [letterCase, setLetterCase] = useState("lower");
 
   sortArrayByFontWeight(currentFont?.fontWeights);
 
   return (
-    <div className="p-12 my-10 w-full max-w-6xl h-auto flex flex-col gap-6 font-[Mattone] bg-black text-white rounded-3xl border border-tan overflow-hidden">
+    <div className="p-12 my-10 w-full max-w-6xl h-auto flex flex-col gap-6 font-[Mattone]  rounded-2xl bg-black text-white overflow-hidden">
       <div className=" text-black overflow-hidden">
         <TopBar
           currentFont={currentFont}
@@ -38,7 +38,7 @@ function FontLayout({ currentFont }) {
         />
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-6">
         {/* Font Weight */}
         <FontWeight
           currentFont={currentFont}

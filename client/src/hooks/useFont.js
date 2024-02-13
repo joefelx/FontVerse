@@ -30,7 +30,6 @@ const useFont = () => {
   };
 
   const fetchAllFonts = async () => {
-    console.log("fetch fonts");
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/font/all`
     );

@@ -3,11 +3,11 @@ function FontWeight({ currentFont, fontWeight, setfontWeight }) {
     <div className="flex flex-col gap-3">
       <p>Weight</p>
       {/*weight buttons */}
-      <div className="flex justify-between text-md">
+      <div className="flex justify-between items-center text-md bg-darkGray rounded-md">
         {currentFont?.fontWeights?.map((w) => (
           <button
-            className={`hover:bg-tan hover:text-black rounded-full p-2 ${
-              fontWeight === w?.fontWeight && "bg-tan text-black"
+            className={`hover:bg-gray rounded-md p-2 ${
+              fontWeight === w?.fontWeight && "bg-gray"
             }`}
             onClick={() => {
               setfontWeight(w?.fontWeight);
