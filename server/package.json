@@ -10,7 +10,6 @@
   "author": "Joe Felix",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.20.0",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

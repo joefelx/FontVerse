@@ -5,7 +5,6 @@ const Font = require("../model/Font");
 
 const upload = require("../storage");
 const RenderCSS = require("../utils/utils");
-const supabase = require("../supabase/index");
 
 // create font style and store in db
 router.post("/upload", upload.single("font"), async (req, res) => {
@@ -120,12 +119,9 @@ router.get("/all", async (req, res) => {
 // get a font
 router.get("/", async (req, res) => {
   const fontName = req.query.fontName;
-  const fontWeight = req.query.fontWeight;
 
   try {
-    const fonts = fontName
-      ? await Font.find({ fontName: fontName })
-      : await Font.find({ fontWeight: fontWeight });
+    const fonts = await Font.find({ fontName: fontName });
 
     res.status(200).json(fonts);
   } catch (error) {
