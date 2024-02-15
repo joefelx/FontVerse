@@ -1,57 +1,32 @@
-import { BsGithub, BsTwitter, BsInstagram } from "react-icons/bs";
+import Logo from "../assets/Fontverse Logo White.png";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="w-full h-auto flex justify-center font-[Mattone] my-5">
-      <div className="w-full h-auto max-w-6xl bg-white px-16 pt-10 rounded-3xl border border-tan">
+    <div className="w-full h-full flex justify-center font-[Mattone] py-5">
+      <div className="w-full h-auto max-w-6xl text-white">
         {/* top */}
         <div className="flex justify-between items-center">
-          {/* left */}
-          <ul className="flex flex-col text-base">
-            <li className="text-sm cursor-pointer my-1">Home</li>
-            <li className="text-sm cursor-pointer my-1">About</li>
-          </ul>
-          {/* center Logo*/}
-          <div className="w-32 h-32 object-contain">
-            <svg
-              className="w-full"
-              viewBox="0 0 1080 1080"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M503.108 604.987L345 274H387.162L545.27 604.987L692.838 274H735L587.432 604.987H545.27H503.108Z"
-                fill="#212121"
-              />
-              <path
-                d="M677.034 274H402.973L418.784 312.615H661.223L677.034 274Z"
-                fill="#D9D9D9"
-              />
-              <path
-                d="M677.028 274H402.973L418.784 312.615H661.223L677.028 274Z"
-                fill="#212121"
-              />
-              <path
-                d="M613.783 417.428H470.812L487.298 450.526H597.973L613.783 417.428Z"
-                fill="#212121"
-              />
-              <path
-                d="M239.329 744V672H302.113V684.48H254.689V701.76H296.929V714.24H254.689V744H239.329ZM338.161 746.016C318.577 746.016 306.001 734.496 306.001 717.408C306.001 700.032 318.673 688.608 338.161 688.608C357.745 688.608 370.321 700.032 370.321 717.408C370.321 734.496 357.745 746.016 338.161 746.016ZM320.785 717.408C320.785 727.776 327.889 734.4 338.161 734.4C348.433 734.4 355.537 727.776 355.537 717.408C355.537 706.848 348.433 700.128 338.161 700.128C327.889 700.128 320.785 706.848 320.785 717.408ZM379.559 744V690.24H393.959V701.856C398.183 692.928 405.287 688.608 415.751 688.608C429.479 688.608 437.159 696.192 437.159 709.632V744H422.759V712.512C422.759 704.64 417.767 699.84 409.607 699.84C402.791 699.84 397.607 703.104 393.959 709.92V744H379.559ZM455.185 727.392V701.28H443.569V690.24H455.473V681.792L469.585 672V690.24H495.217V701.28H469.585V722.592C469.585 730.176 474.577 734.112 483.697 734.112C486.961 734.112 491.857 733.632 497.521 731.52L495.601 742.656C490.321 744.864 484.849 746.016 479.281 746.016C464.689 746.016 455.185 737.952 455.185 727.392ZM543.461 672L568.901 728.64L594.053 672H610.853L577.253 744H560.165L526.373 672H543.461ZM608.438 717.216C608.438 699.744 620.342 688.608 638.87 688.608C656.054 688.608 667.478 698.4 667.478 713.568V720.48H622.646C624.566 729.312 632.534 734.496 645.398 734.496C652.598 734.496 659.606 733.056 667.382 730.656L665.942 741.792C659.894 744.288 652.31 746.016 643.478 746.016C622.262 746.016 608.438 734.688 608.438 717.216ZM622.454 711.84H654.134C653.75 703.488 648.47 699.36 638.774 699.36C628.79 699.36 623.03 703.68 622.454 711.84ZM676.653 744V690.24H690.669V702.816C694.989 693.696 703.533 689.472 712.269 689.472C713.613 689.472 714.957 689.568 716.301 689.76V703.968C713.037 703.104 709.965 702.72 707.085 702.72C700.653 702.72 695.085 704.832 691.053 708.864V744H676.653ZM722.362 704.544C722.362 694.176 732.346 688.608 750.778 688.608C758.362 688.608 765.946 689.664 773.05 692.64L773.626 704.352C766.522 701.184 759.322 699.456 750.298 699.456C740.314 699.456 735.61 701.376 735.61 704.736C735.61 714.528 777.274 705.792 777.274 729.12C777.274 740.448 767.482 746.016 750.106 746.016C740.41 746.016 731.962 744.672 723.898 740.928L723.034 729.024C732.73 733.344 740.314 735.072 748.666 735.072C758.554 735.072 763.738 732.864 763.738 729.024C763.738 718.176 722.362 726.432 722.362 704.544ZM784.032 717.216C784.032 699.744 795.936 688.608 814.464 688.608C831.648 688.608 843.072 698.4 843.072 713.568V720.48H798.24C800.16 729.312 808.128 734.496 820.992 734.496C828.192 734.496 835.2 733.056 842.976 730.656L841.536 741.792C835.488 744.288 827.904 746.016 819.072 746.016C797.856 746.016 784.032 734.688 784.032 717.216ZM798.048 711.84H829.728C829.344 703.488 824.064 699.36 814.368 699.36C804.384 699.36 798.624 703.68 798.048 711.84Z"
-                fill="#212121"
-              />
-            </svg>
+          <div className=" w-14 aspect-square object-contain">
+            <Link to="/">
+              <img className="w-full cursor-pointer" src={Logo} alt="Logo" />
+            </Link>
           </div>
           {/* right */}
-          <ul className="flex flex-col">
-            <li className="text-sm cursor-pointer my-1">Fonts</li>
-            <li className="text-sm cursor-pointer my-1">License</li>
+          <ul className="flex gap-6">
+            <li className="text-sm cursor-pointer my-1 hover:text-tan">
+              <a href="https://github.com/joefelx/FontVerse" target="_blank">
+                Github
+              </a>
+            </li>
+            <li className="text-sm cursor-pointer my-1 hover:text-tan">
+              About
+            </li>
           </ul>
-        </div>
-        {/* bottom */}
-        <div className="flex justify-center items-center border-t border-black py-10 text-xs">
-          <p>
+
+          <p className="text-xs text-white">
             Designed & Developed by{" "}
-            <span className="hover:text-tan cursor-pointer">Joe Felix</span>
+            <span className="hover:text-tan cursor-pointer ">Joe Felix</span>
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { FontContext } from "../context/FontContext";
+import toast from "react-hot-toast"
 
-import { generateRandomNum } from "../utils";
 
 const useFont = () => {
   const { selectedFonts, fontsList, currentFont, dispatch } =
@@ -30,28 +30,31 @@ const useFont = () => {
   };
 
   const fetchAllFonts = async () => {
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/font/all`)
-      .then((response) => response.json())
-      .then((data) => {
-        window.localStorage.setItem("fonts", JSON.stringify(data));
-        dispatch({ type: "SET_FONTS_LIST", payload: data });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/font/all`
+    );
+    const data = await response.json();
+    return data;
+  };
+
+  const addToCollection = (fontName) => {
+
+    if (!selectedFonts.includes(fontName)) {
+
+      toast("Added to the Capsule", {
+        icon: "🚀"
       })
-      .then(() => {
-        randomFetchFont();
-      });
-  };
 
-  const randomFetchFont = async () => {
-    const fonts = JSON.parse(window.localStorage.getItem("fonts"));
-    setCurrentFont(fonts[generateRandomNum(fonts.length)]);
-  };
-
-  const addToCollection = (font) => {
-    !selectedFonts.includes(font) &&
       dispatch({
         type: "SET_SELECTED_FONTS",
-        payload: [...selectedFonts, font],
-      });
+        payload: [...selectedFonts, fontName],
+      })
+    } else {
+      toast("Already Exist in the Capsule", {
+        icon: "😃"
+      })
+    }
+
   };
 
   const removeFromCollection = (fontName) => {
@@ -64,6 +67,10 @@ const useFont = () => {
       temp.push(selectedFonts[i]);
     }
 
+    toast("Removed from the Capsule", {
+      icon: "🫡"
+    })
+
     dispatch({
       type: "SET_SELECTED_FONTS",
       payload: temp,
@@ -72,6 +79,7 @@ const useFont = () => {
 
   const setCurrentFont = (font) => {
     dispatch({ type: "SET_CURRENT_FONT", payload: font });
+    console.log(currentFont);
   };
 
   return {
@@ -80,10 +88,11 @@ const useFont = () => {
     fontsList,
     fetchFonts,
     fetchAllFonts,
-    randomFetchFont,
+    // randomFetchFont,
     setCurrentFont,
     addToCollection,
     removeFromCollection,
+    dispatch,
   };
 };
 

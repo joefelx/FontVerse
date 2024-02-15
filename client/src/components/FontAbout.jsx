@@ -3,10 +3,10 @@ import { FontContext } from "../context/FontContext";
 
 const FontDetail = ({ title, name, currentFont }) => {
   return (
-    <div className="mb-10">
-      <span className=" text-base">{title}</span>
+    <div className="flex flex-col gap-3">
+      <span className="text-base text-gray">{title}</span>
       <h3
-        className=" text-2xl mt-3"
+        className="text-xl text-white"
         style={{
           fontFamily: currentFont.fontName,
         }}
@@ -17,29 +17,21 @@ const FontDetail = ({ title, name, currentFont }) => {
   );
 };
 
-function FontAbout() {
-  const { currentFont } = useContext(FontContext);
-
+function FontAbout({ currentFont }) {
   return (
-    <div className="w-full h-auto min-h-[110px] flex justify-center font-[Mattone]">
-      <div className="w-full max-w-6xl flex justify-between bg-white p-16 rounded-3xl border border-tan">
-        {/* left */}
-        <div className="flex-1">
-          <h2 className="text-4xl">About</h2>
-        </div>
-        {/* right */}
-        <div className="flex-[2]">
-          <FontDetail
-            title="Font Family"
-            name={currentFont.fontName}
-            currentFont={currentFont}
-          />
-          <FontDetail
-            title="Designed / Origin"
-            name={currentFont.fontDetails}
-            currentFont={currentFont}
-          />
-        </div>
+    <div className="w-full h-auto min-h-[110px] font-[Mattone] my-5  flex justify-between bg-black text-secondary p-12 rounded-3xl border border-tan">
+      {/* right */}
+      <div className="flex-[2] flex flex-col gap-5">
+        <FontDetail
+          title="Font Family"
+          name={currentFont.fontName}
+          currentFont={currentFont}
+        />
+        <FontDetail
+          title="Designed / Origin"
+          name={currentFont.fontDetails}
+          currentFont={currentFont}
+        />
       </div>
     </div>
   );

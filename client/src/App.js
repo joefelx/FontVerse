@@ -1,17 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages";
 import { Header, Footer } from "./components";
-import useFont from "./hooks/useFont";
-import { useEffect } from "react";
+import { Toaster } from "react-hot-toast"
 
 function App() {
-  const { fetchAllFonts } = useFont();
-  useEffect(() => {
-    fetchAllFonts();
-  }, []);
-
   return (
-    <div className="min-h-screen w-full bg-lightwhite">
+    <div className="h-full w-full home">
+      <Toaster />
       <Header />
       <div>
         <Routes>
