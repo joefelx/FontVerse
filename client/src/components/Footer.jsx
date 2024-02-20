@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="w-full h-full flex justify-center font-[Mattone] py-5">
-      <div className="w-full h-auto max-w-6xl text-white">
+    <div className="bg-black w-full h-52 flex justify-center font-[Mattone] py-5">
+      <div className="w-full h-full max-w-6xl flex flex-col justify-between text-white">
         {/* top */}
         <div className="flex justify-between items-center">
           <div className=" w-14 aspect-square object-contain">
@@ -23,8 +23,9 @@ function Footer() {
               About
             </li>
           </ul>
-
-          <p className="text-xs text-white">
+        </div>
+        <div className="flex justify-center items-center my-2">
+        <p className="text-xs text-gray">
             Designed & Developed by{" "}
             <span className="hover:text-tan cursor-pointer ">Joe Felix</span>
           </p>

@@ -15,7 +15,8 @@ const useFont = () => {
           dispatch({ type: "SET_FONTS_LIST", payload: data });
         });
     } else if (type === "fontName") {
-      await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
+     await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
+     
         .then((response) => response.json())
         .then((data) => {
           setCurrentFont(data[0]);

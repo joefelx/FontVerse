@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./pages";
+import { Home, Font } from "./pages";
 import { Header, Footer } from "./components";
 import { Toaster } from "react-hot-toast"
 
@@ -11,6 +11,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/:fontName" element={<Font />} />
         </Routes>
         <Footer />
       </div>

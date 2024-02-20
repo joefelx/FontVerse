@@ -21,8 +21,7 @@ function Home() {
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center items-center h-auto w-full">
-      {/* <Font /> */}
+    <div className="flex flex-col justify-center items-center h-auto w-full">
       {fontsList.map((f) => (
         <FontLayout currentFont={f} />
       ))}

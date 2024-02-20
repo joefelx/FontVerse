@@ -13,7 +13,7 @@ function FontPreview({ fontFamily, fontWeight, className }) {
         </span>
 
         <h1
-          className={`my-2 text-6xl outline-none overflow-hidden`}
+          className={`my-2 text-9xl outline-none overflow-hidden`}
           suppressContentEditableWarning={true}
           contentEditable={true}
           spellCheck={false}

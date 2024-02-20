@@ -4,7 +4,9 @@ function FunctionPanel() {
   const { selectedFonts, currentFont, addToCollection } = useFont();
 
   return (
-    <button
+    <div className="flex justify-between items-center mb-10">
+      <span>Styles</span>
+        <button
       className={`${
         selectedFonts.includes(currentFont?.fontName)
           ? "text-secondary border border-secondary rounded-2xl px-3"
@@ -14,6 +16,8 @@ function FunctionPanel() {
     >
       {selectedFonts.includes(currentFont?.fontName) ? "SELECTED" : "ADD"}
     </button>
+    </div>
+    
   );
 }
 
