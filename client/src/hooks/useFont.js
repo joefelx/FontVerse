@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { FontContext } from "../context/FontContext";
-import toast from "react-hot-toast"
-
+import toast from "react-hot-toast";
 
 const useFont = () => {
   const { selectedFonts, fontsList, currentFont, dispatch } =
@@ -15,8 +14,7 @@ const useFont = () => {
           dispatch({ type: "SET_FONTS_LIST", payload: data });
         });
     } else if (type === "fontName") {
-     await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
-     
+      await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
         .then((response) => response.json())
         .then((data) => {
           setCurrentFont(data[0]);
@@ -39,23 +37,20 @@ const useFont = () => {
   };
 
   const addToCollection = (fontName) => {
-
     if (!selectedFonts.includes(fontName)) {
-
       toast("Added to the Capsule", {
-        icon: "🚀"
-      })
+        icon: "🚀",
+      });
 
       dispatch({
         type: "SET_SELECTED_FONTS",
         payload: [...selectedFonts, fontName],
-      })
+      });
     } else {
       toast("Already Exist in the Capsule", {
-        icon: "😃"
-      })
+        icon: "😃",
+      });
     }
-
   };
 
   const removeFromCollection = (fontName) => {
@@ -69,8 +64,8 @@ const useFont = () => {
     }
 
     toast("Removed from the Capsule", {
-      icon: "🫡"
-    })
+      icon: "🫡",
+    });
 
     dispatch({
       type: "SET_SELECTED_FONTS",
@@ -89,7 +84,6 @@ const useFont = () => {
     fontsList,
     fetchFonts,
     fetchAllFonts,
-    // randomFetchFont,
     setCurrentFont,
     addToCollection,
     removeFromCollection,

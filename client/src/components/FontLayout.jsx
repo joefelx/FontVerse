@@ -38,7 +38,7 @@ function FontLayout({ currentFont }) {
         />
       </div>
 
-      <div className="flex justify-between gap-6">
+      <div className="flex md:flex-row flex-col md:justify-between md:gap-6">
         {/* Font Weight */}
         <FontWeight
           currentFont={currentFont}
@@ -49,7 +49,7 @@ function FontLayout({ currentFont }) {
         <FontSize size={fontSize} setSize={setFontSize} />
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex md:flex-row flex-col justify-between">
         <FontAlign alignment={alignment} setAlignment={setAlignment} />
         <FontCasing letterCase={letterCase} setLetterCase={setLetterCase} />
       </div>

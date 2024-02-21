@@ -76,6 +76,8 @@ router.get("/style", async (req, res) => {
 
     let formatString = await RenderCSS(fontFamilyList, false);
 
+    res.setHeader("Content-Type", "text/css");
+
     res.status(200).format({
       "text/css": async function () {
         res.send(formatString);

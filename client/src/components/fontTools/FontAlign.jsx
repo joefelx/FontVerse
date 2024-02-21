@@ -2,12 +2,14 @@ import React from "react";
 
 function FontAlign({ alignment, setAlignment }) {
   return (
-    <div className=" flex flex-col gap-3">
+    <div className="flex flex-col gap-3 md:my-0 my-5">
       <p>Alignment</p>
       <div className="grid grid-flow-col bg-darkGray rounded-md text-2xl">
         {/* left align */}
         <button
-          className={`rounded-md p-2 ${alignment === "left" && "bg-gray"}`}
+          className={`rounded-md p-2 flex items-center justify-center ${
+            alignment === "left" && "bg-gray"
+          }`}
           onClick={() => setAlignment("left")}
         >
           <svg
@@ -29,7 +31,9 @@ function FontAlign({ alignment, setAlignment }) {
 
         {/* center align */}
         <button
-          className={`rounded-md p-2 ${alignment === "center" && "bg-gray"}`}
+          className={`rounded-md p-2 flex items-center justify-center ${
+            alignment === "center" && "bg-gray"
+          }`}
           onClick={() => setAlignment("center")}
         >
           <svg
@@ -51,7 +55,9 @@ function FontAlign({ alignment, setAlignment }) {
 
         {/* right align */}
         <button
-          className={`rounded-md p-2 ${alignment === "right" && "bg-gray"}`}
+          className={`rounded-md p-2 flex items-center justify-center ${
+            alignment === "right" && "bg-gray"
+          }`}
           onClick={() => setAlignment("right")}
         >
           <svg

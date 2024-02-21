@@ -19,6 +19,7 @@ function TextArea({
         Math.min(textarea.scrollHeight, heightLimit) + "px";
     };
   }
+
   return (
     <textarea
       spellCheck={false}

@@ -16,8 +16,8 @@ function Font() {
   }, []);
 
   return (
-    <div className="my-5 w-full h-auto min-h-[110px] flex justify-center font-[Mattone] text-secondary">
-      <div className="max-w-6xl">
+    <div className="my-5 flex flex-col justify-center items-center w-full h-auto min-h-[110px] font-[Mattone] text-secondary">
+      <div className="">
         <RenderFonts />
         <FontLayout currentFont={currentFont} />
         <FontAbout currentFont={currentFont} />

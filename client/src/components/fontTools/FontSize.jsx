@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-
 function FontSize({ size, setSize }) {
-  //   const [size, setSize] = useState();
   return (
-    <div className="w-1/2 flex flex-col gap-3">
+    <div className="md:w-1/2 flex flex-col gap-3">
       <p>Size</p>
       <div className="w-full">
         <input

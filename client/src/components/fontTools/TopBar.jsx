@@ -9,9 +9,11 @@ function TopBar({
   selectedFonts,
 }) {
   return (
-    <div className="flex justify-between items-center">
-      <span className="text-xl text-white">{currentFont.fontName}</span>
-      <span className="text-sm text-gray">
+    <div className="flex flex-col text-center md:flex-row md:justify-between md:items-center">
+      <span className="text-xl text-white pb-2 md:pb-0">
+        {currentFont.fontName}
+      </span>
+      <span className="text-sm text-gray py-2 md:py-0">
         {fontWeightMap[fontWeightConversion(fontWeight)]} /{" "}
         {fontWeightConversion(fontWeight)} / {fontSize + "px"}
       </span>
