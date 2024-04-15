@@ -5,6 +5,7 @@ const Font = require("../model/Font");
 
 const upload = require("../storage");
 const RenderCSS = require("../utils/utils");
+const redisClient = require("../utils/redis");
 
 // create font style and store in db
 router.post("/upload", upload.single("font"), async (req, res) => {
@@ -72,17 +73,32 @@ router.post("/update", upload.single("font"), async (req, res) => {
 router.get("/style", async (req, res) => {
   try {
     let fontFamily = req.query.fontFamily;
-    let fontFamilyList = fontFamily.split(",");
 
-    let formatString = await RenderCSS(fontFamilyList, false);
+    let value = await redisClient.get(`style:${fontFamily}`);
 
-    res.setHeader("Content-Type", "text/css");
+    if (value != null) {
+      console.log("inside");
+      res.setHeader("Content-Type", "text/css");
 
-    res.status(200).format({
-      "text/css": async function () {
-        res.send(formatString);
-      },
-    });
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(value);
+        },
+      });
+    } else {
+      let fontFamilyList = fontFamily.split(",");
+      let formatString = await RenderCSS(fontFamilyList, false);
+
+      redisClient.set(`style:${fontFamily}`, formatString);
+
+      res.setHeader("Content-Type", "text/css");
+
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(formatString);
+        },
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -91,15 +107,28 @@ router.get("/style", async (req, res) => {
 // return all the font style
 router.get("/style/all", async (req, res) => {
   try {
-    const fonts = await Font.find();
+    let fonts;
+    const path = req.path;
 
-    let formatString = await RenderCSS(fonts, true);
+    fonts = await redisClient.get(path);
 
-    res.status(200).format({
-      "text/css": async function () {
-        res.send(formatString);
-      },
-    });
+    if (fonts != null) {
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(fonts);
+        },
+      });
+    } else {
+      fonts = await Font.find();
+      let formatString = await RenderCSS(fonts, true);
+
+      redisClient.set(path, formatString);
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(formatString);
+        },
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -108,8 +137,17 @@ router.get("/style/all", async (req, res) => {
 // get all fonts
 router.get("/all", async (req, res) => {
   try {
-    const fonts = await Font.find();
-    res.status(200).json(fonts);
+    let fonts;
+    const path = req.path;
+
+    fonts = await redisClient.get(path);
+    if (fonts != null) {
+      return res.status(200).json(JSON.parse(fonts));
+    } else {
+      fonts = await Font.find();
+      redisClient.set(path, JSON.stringify(fonts));
+      return res.status(200).json(fonts);
+    }
   } catch (error) {
     res.status(500).json({
       status: "failed",
@@ -123,9 +161,16 @@ router.get("/", async (req, res) => {
   const fontName = req.query.fontName;
 
   try {
-    const fonts = await Font.find({ fontName: fontName });
+    let font;
 
-    res.status(200).json(fonts);
+    font = await redisClient.get(`model:${fontName}`);
+    if (font != null) {
+      return res.status(200).json(JSON.parse(font));
+    } else {
+      font = await Font.find({ fontName: fontName });
+      redisClient.set(`model:${fontName}`, JSON.stringify(font));
+      res.status(200).json(font);
+    }
   } catch (error) {
     res.status(500).json({
       status: "failed",
