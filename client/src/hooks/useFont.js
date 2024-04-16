@@ -17,7 +17,10 @@ const useFont = () => {
       await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontName=${value}`)
         .then((response) => response.json())
         .then((data) => {
-          setCurrentFont(data[0]);
+          dispatch({
+            type: "SET_CURRENT_FONT",
+            payload: data[0],
+          });
         });
     } else {
       await fetch(`${process.env.REACT_APP_SERVER_URL}/font/all`)
