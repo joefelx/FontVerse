@@ -6,6 +6,14 @@ const useFont = () => {
   const { selectedFonts, fontsList, currentFont, dispatch } =
     useContext(FontContext);
 
+  const fetchFont = async (fontName) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/font?fontName=${fontName}`
+    );
+    const data = await response.json();
+    return data[0];
+  };
+
   const fetchFonts = async (type, value) => {
     if (type === "fontWeight") {
       await fetch(`${process.env.REACT_APP_SERVER_URL}/font?fontWeight=400`)
@@ -32,6 +40,7 @@ const useFont = () => {
   };
 
   const fetchAllFonts = async () => {
+    console.log(process.env.REACT_APP_SERVER_URL);
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/font/all`
     );
@@ -57,14 +66,9 @@ const useFont = () => {
   };
 
   const removeFromCollection = (fontName) => {
-    const temp = [];
-
-    for (let i = 0; i < selectedFonts.length; i++) {
-      if (selectedFonts[i] === fontName) {
-        continue;
-      }
-      temp.push(selectedFonts[i]);
-    }
+    const temp = selectedFonts.filter((font) => {
+      return font !== fontName;
+    });
 
     toast("Removed from the Capsule", {
       icon: "🫡",
@@ -85,6 +89,7 @@ const useFont = () => {
     currentFont,
     selectedFonts,
     fontsList,
+    fetchFont,
     fetchFonts,
     fetchAllFonts,
     setCurrentFont,

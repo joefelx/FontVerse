@@ -1,12 +1,9 @@
-import { useContext } from "react";
-import { FontContext } from "../context/FontContext";
-
 const FontDetail = ({ title, name, currentFont }) => {
   return (
-    <div className="flex flex-col gap-3">
-      <span className="text-base text-gray">{title}</span>
+    <div className="flex flex-col gap-3 my-2">
+      <span className="md:text-2xl text-white uppercase">{title}</span>
       <h3
-        className="text-xl text-white"
+        className="md:text-xl text-white/70"
         style={{
           fontFamily: currentFont.fontName,
         }}
@@ -19,7 +16,7 @@ const FontDetail = ({ title, name, currentFont }) => {
 
 function FontAbout({ currentFont }) {
   return (
-    <div className="w-full h-auto min-h-[110px] font-[Mattone] my-5  flex justify-between bg-black text-secondary p-12 rounded-3xl border border-tan">
+    <div className="w-full h-auto min-h-[110px] font-[Mattone] my-5 flex justify-between bg-black text-secondary p-12 rounded-3xl border border-blue">
       {/* right */}
       <div className="flex-[2] flex flex-col gap-5">
         <FontDetail
