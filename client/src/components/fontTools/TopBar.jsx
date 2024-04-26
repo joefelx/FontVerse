@@ -12,13 +12,13 @@ function TopBar({
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate(`/${currentFont.fontName}`);
+    navigate(`/${currentFont.fontName.toLowerCase()}`);
   }
 
   return (
     <div className="flex flex-col text-center md:flex-row md:justify-between md:items-center">
       <span
-        className="text-xl text-white cursor-pointer pb-2 md:pb-0"
+        className="text-xl text-white cursor-pointer pb-2 md:pb-0 capitalize"
         onClick={handleClick}
       >
         {currentFont.fontName}

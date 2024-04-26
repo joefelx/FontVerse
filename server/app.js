@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const redisClient = require("./utils/redis");
 const fontRouter = require("./router/font");
 const userRouter = require("./router/user");
@@ -31,7 +32,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(morgan("tiny"));
 app.use(
   cors({
@@ -68,9 +70,7 @@ async function startServer() {
     }
   );
 
-  app.listen(PORT, (req, res) => {
-    console.log(`Server connected to port: ${PORT}`);
-  });
+  app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
 }
 
 startServer();

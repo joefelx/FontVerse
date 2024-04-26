@@ -34,10 +34,13 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    fontsCollection: {
-      type: Array,
-      default: [],
-    },
+    fonts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Font",
+      },
+    ],
+
     admin: {
       type: Boolean,
       default: false,

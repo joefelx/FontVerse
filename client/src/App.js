@@ -1,19 +1,42 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, Font } from "./pages";
+import { Home, Font, DashBoard } from "./pages";
 import { Header, Footer } from "./components";
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 
 function App() {
+  const ParentContainer = ({ children }) => {
+    return (
+      <>
+        <Header />
+        {children}
+        <Footer />
+      </>
+    );
+  };
+
   return (
     <div className="h-full w-full home">
       <Toaster />
-      <Header />
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:fontName" element={<Font />} />
+          <Route
+            path="/"
+            element={
+              <ParentContainer>
+                <Home />
+              </ParentContainer>
+            }
+          />
+          <Route
+            path="/:fontName"
+            element={
+              <ParentContainer>
+                <Font />
+              </ParentContainer>
+            }
+          />
+          <Route path="/dashboard" element={<DashBoard />} />
         </Routes>
-        <Footer />
       </div>
     </div>
   );

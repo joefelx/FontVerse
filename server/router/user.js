@@ -9,29 +9,27 @@ router.post("/auth/signup", async (req, res) => {
   try {
     const founduser = await User.findOne({ email: req.body.email });
 
-    if (!founduser) {
-      const saltRound = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, saltRound);
-
-      const user = await User({
-        email: req.body.email,
-        password: hashedPassword,
-        admin: req.body.admin,
+    if (founduser) {
+      return res.status(400).json({
+        status: "failed",
+        data: "User Already Registered! Try to Login or SignIn",
       });
-
-      const newUser = await user.save();
-
-      res.status(201).json({
-        status: "success",
-        data: newUser,
-        logged: true,
-      });
-      return;
     }
 
-    res.status(400).json({
-      status: "failed",
-      data: "User Already Registered! Try to Login or SignIn",
+    const saltRound = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRound);
+
+    const user = await User({
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
+    const newUser = await user.save();
+
+    return res.status(201).json({
+      status: "success",
+      data: newUser,
+      logged: true,
     });
   } catch (error) {
     res.status(500).json({
@@ -44,25 +42,26 @@ router.post("/auth/signup", async (req, res) => {
 // Sign in or Login user
 router.post("/auth/login", async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    !user &&
-      res.status(404).json({
+    const user = await User.findOne({ email: req.body.email }).populate(
+      "fonts"
+    );
+    if (!user) {
+      return res.status(404).json({
         status: "failed",
         data: "No user found",
         logged: false,
       });
+    }
 
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+    const validPassword = bcrypt.compare(req.body.password, user.password);
 
-    !validPassword &&
-      res.status(400).json({
+    if (!validPassword) {
+      return res.status(400).json({
         status: "failed",
         data: "Password Wrong",
         logged: false,
       });
+    }
 
     res.status(200).json({
       status: "success",

@@ -20,7 +20,7 @@ const SearchBox = ({ search, setSearch }) => {
         className="w-full h-full bg-transparent outline-none text-base"
         onChange={(e) => setSearch(e.target.value)}
       />
-      <Link to={`/${search}`}>
+      <Link to={`/${search.toLowerCase()}`}>
         <FiSearch className="ml-3 text-xl" />
       </Link>
     </div>
