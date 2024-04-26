@@ -15,7 +15,7 @@ function Font() {
   useEffect(() => {
     (async () => {
       console.log(fontName);
-      const data = await fetchFont(Capitalize(fontName));
+      const data = await fetchFont(fontName);
 
       setCurrentFont(data);
     })();

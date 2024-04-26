@@ -4,42 +4,57 @@ const User = require("../model/User");
 const Font = require("../model/Font");
 
 const upload = require("../storage");
-const RenderCSS = require("../utils/utils");
+const RenderCSS = require("../utils/fontUtils");
 const redisClient = require("../utils/redis");
+const s3 = require("../storage/aws");
 
-// create font style and store in db
-router.post("/upload", upload.single("font"), async (req, res) => {
-  const file = req.file;
-  const { userId, fontName, fontDetails, fontWeight, price } = req.body;
+const s3Connection = require("../storage/aws");
+const generateName = require("../utils/generateName");
+const isAdmin = require("../middleware/isAdmin");
 
-  const fontRefactor = {
-    userId,
-    fontName,
-    fontDetails,
-    fontWeights: {
-      fontWeight,
-      fontURL: `${process.env.SERVER_URL}/fonts/${file.filename}`,
-    },
-    price,
-  };
+const env = require("../utils/constEnv");
 
+// store new font in db
+router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
   try {
-    const checkAdmin = await User.findById(userId);
-    if (checkAdmin.admin) {
-      // create new font object
-      const font = await Font(fontRefactor);
-      const savedFont = await font.save();
+    const file = req.file;
+    const body = req.body;
+    // Step1: Upload the file to AWS
+    // Step2: setup the cdn for the AWS bucket
+    const genFontName = generateName();
+    await s3Connection.uploadFont(genFontName, file.buffer, file.mimetype);
+    console.log("Step 1 -> Font uploaded: ", genFontName);
 
-      res.status(200).json({
-        status: "success",
-        data: savedFont,
-      });
-    } else {
-      res.status(400).json({
-        status: "failed",
-        data: "You are not permitted",
-      });
-    }
+    // Step3: get the filename from AWS and store it in mongodb
+
+    const fontRefactor = {
+      userId: req.userId,
+      fontName: body.fontName.toLowerCase(),
+      fontDetails: body.fontDetails,
+      fontWeights: {
+        fontWeight: body.fontWeight,
+        fontURL: `${env.FONTCDN}/${genFontName}`,
+      },
+    };
+
+    console.log("Step 2 -> Refactor font document");
+
+    // create new font object
+    const font = new Font(fontRefactor);
+    const savedFont = await font.save();
+    console.log("Step 3 -> Saved Font!");
+
+    // save the collection to user
+    const user = await User.findById({ _id: req.userId });
+    user.fonts.push(font._id);
+    await user.save();
+
+    console.log("Step 4 -> Saved Font to User collection!");
+
+    res.status(200).json({
+      status: "success",
+      data: savedFont,
+    });
   } catch (error) {
     res.status(500).json({
       status: "failed",
