@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import { FontContext } from "../context/FontContext";
 import toast from "react-hot-toast";
+import { UserContext } from "../context/UserContext";
 
 const useFont = () => {
   const { selectedFonts, fontsList, currentFont, dispatch } =
     useContext(FontContext);
+
+  const { user } = useContext(UserContext);
 
   const fetchFont = async (fontName) => {
     const response = await fetch(
@@ -85,6 +88,60 @@ const useFont = () => {
     console.log(currentFont);
   };
 
+  const uploadFonts = async (fontData, fontWeights) => {
+    try {
+      // Object { fontName: "Poppins", fontSlug: "poppins", fontDetail: "sfa", price: "" }
+
+      // fontFile: File { name: "OpenSans-Medium.woff2", lastModified: 1710679395676, size: 59740, … }
+      // ​​
+      // fontWeight: "100"
+      // ​​
+
+      // fontWeightName: "Thin"
+
+      async function handleFontUpload(fontWeightObject) {
+        console.log(fontWeightObject);
+        const formData = new FormData();
+        formData.append("fontName", fontData.fontName);
+        formData.append("fontSlug", fontData.fontSlug);
+        formData.append("fontDetail", fontData.fontName);
+        formData.append("fontWeight", fontWeightObject.fontWeight);
+        formData.append("fontWeightName", fontWeightObject.fontWeightName);
+        formData.append("font", fontWeightObject.fontFile);
+
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/font/new`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: "65bf183d79903b409ca30089",
+            },
+          }
+        );
+        const data = await response.json();
+
+        console.log(data);
+
+        return data;
+      }
+
+      let i = 0;
+
+      while (i < fontWeights.length) {
+        const result = await handleFontUpload(fontWeights[i]);
+
+        if (result) {
+          i++;
+        }
+      }
+
+      console.log(fontData, fontWeights);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     currentFont,
     selectedFonts,
@@ -95,6 +152,7 @@ const useFont = () => {
     setCurrentFont,
     addToCollection,
     removeFromCollection,
+    uploadFonts,
     dispatch,
   };
 };

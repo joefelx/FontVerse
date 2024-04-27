@@ -1,3 +1,5 @@
+import Capitalize from "../../utils/capitalize";
+
 function FontSelected({ font, removeFromCollection }) {
   return (
     <div className="flex my-3 z-[10]">
@@ -21,7 +23,7 @@ function FontSelected({ font, removeFromCollection }) {
           strokeLinejoin="round"
         />
       </svg>
-      <span className="text-2xl ml-5">{font}</span>
+      <span className="text-2xl ml-5">{Capitalize(font)}</span>
     </div>
   );
 }

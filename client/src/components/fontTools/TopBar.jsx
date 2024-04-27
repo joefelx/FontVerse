@@ -12,7 +12,7 @@ function TopBar({
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate(`/${currentFont.fontName.toLowerCase()}`);
+    navigate(`/font/${currentFont.fontName.toLowerCase()}`);
   }
 
   return (

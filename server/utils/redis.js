@@ -7,9 +7,8 @@ const REDIS_HOST_PORT = process.env.REDIS_HOST_PORT;
 
 let client;
 
-// if (process.env.DEVELOPMENT) {
-//   client = createClient(6379, "127.0.0.1");
-// } else {
+// client = createClient(6379, "127.0.0.1");
+
 client = createClient({
   password: REDIS_PASSWORD,
   legacyMode: false,
@@ -19,6 +18,5 @@ client = createClient({
     port: REDIS_HOST_PORT,
   },
 });
-// }
 
 module.exports = client;

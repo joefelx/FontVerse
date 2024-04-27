@@ -1,13 +1,9 @@
 import FontSelected from "./FontSelected";
 import ClipBoard from "./ClipBoard";
 
-function ExtendedHeader({ show, selectedFonts, removeFromCollection }) {
+function ExtendedHeader({ selectedFonts, removeFromCollection }) {
   return (
-    <div
-      className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] ${
-        !show ? "hidden" : "block"
-      }`}
-    >
+    <div className={`w-full p-5 mb-10 md:mx-0 mx-3 relative z-[10] block `}>
       {/* user selection section */}
 
       {selectedFonts.length > 0 ? (

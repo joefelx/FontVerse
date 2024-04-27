@@ -6,6 +6,7 @@ import useFont from "../hooks/useFont";
 import { useEffect, useState } from "react";
 import Capitalize from "../utils/capitalize";
 import { FontLayout } from "../components";
+import Loader from "../components/Loader";
 
 function Font() {
   const { fetchFont } = useFont();
@@ -30,17 +31,7 @@ function Font() {
             <FontAbout currentFont={currentFont} />
           </>
         ) : (
-          <div className="rotate-180">
-            <Triangle
-              visible={true}
-              height="80"
-              width="80"
-              color="#00a6ff"
-              ariaLabel="triangle-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-            />
-          </div>
+          <Loader />
         )}
       </div>
     </div>

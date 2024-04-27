@@ -28,7 +28,7 @@ function App() {
             }
           />
           <Route
-            path="/:fontName"
+            path="/font/:fontName"
             element={
               <ParentContainer>
                 <Font />

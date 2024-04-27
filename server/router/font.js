@@ -19,6 +19,33 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
   try {
     const file = req.file;
     const body = req.body;
+
+    const fontFound = await Font.findOne({
+      fontSlug: body.fontSlug,
+    });
+
+    if (fontFound) {
+      // Step1: Upload the file to AWS
+      // Step2: setup the cdn for the AWS bucket
+      const genFontName = generateName();
+      await s3Connection.uploadFont(genFontName, file.buffer, file.mimetype);
+      console.log("Step 1 -> Font uploaded: ", genFontName);
+      // push the font weight into the font
+
+      const newFontWeight = {
+        fontWeight: body.fontWeight,
+        fontURL: `${env.FONTCDN}/${genFontName}`,
+      };
+
+      fontFound.fontWeights.push(newFontWeight);
+
+      await fontFound.save();
+
+      return res.status(200).json({
+        status: "success",
+        data: "fontSaved",
+      });
+    }
     // Step1: Upload the file to AWS
     // Step2: setup the cdn for the AWS bucket
     const genFontName = generateName();
@@ -29,10 +56,12 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
 
     const fontRefactor = {
       userId: req.userId,
-      fontName: body.fontName.toLowerCase(),
+      fontName: body.fontName,
+      fontSlug: body.fontSlug,
       fontDetails: body.fontDetails,
       fontWeights: {
         fontWeight: body.fontWeight,
+        fontWeightName: body.fontWeightName,
         fontURL: `${env.FONTCDN}/${genFontName}`,
       },
     };
@@ -51,7 +80,7 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
 
     console.log("Step 4 -> Saved Font to User collection!");
 
-    res.status(200).json({
+    res.status(201).json({
       status: "success",
       data: savedFont,
     });

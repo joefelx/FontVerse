@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 const FontSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     fontName: {
       type: String,
       required: true,
     },
-    fontDetails: {
+    fontSlug: {
+      type: String,
+      unique: true,
+    },
+
+    fontDetail: {
       type: String,
       default: "",
     },
@@ -19,6 +25,9 @@ const FontSchema = new mongoose.Schema(
       default: [
         {
           fontWeight: {
+            type: String,
+          },
+          fontWeightName: {
             type: String,
           },
           fontURL: {

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import useFont from "../hooks/useFont";
 import { IoCopyOutline, FiSearch } from "../components/Icons";
+import { FaRegUser } from "react-icons/fa6";
 import ExtendedHeader from "./headerComponents/ExtendedHeader";
 
 import { CgClose } from "react-icons/cg";
@@ -20,7 +21,7 @@ const SearchBox = ({ search, setSearch }) => {
         className="w-full h-full bg-transparent outline-none text-base"
         onChange={(e) => setSearch(e.target.value)}
       />
-      <Link to={`/${search.toLowerCase()}`}>
+      <Link to={`/font/${search.toLowerCase()}`}>
         <FiSearch className="ml-3 text-xl" />
       </Link>
     </div>
@@ -63,7 +64,7 @@ function Header() {
               className="hover:text-blue cursor-pointer"
               onClick={() => setshowSearch(!showSearch)}
             >
-              <FiSearch />
+              {showSearch ? <CgClose className="text-2xl" /> : <FiSearch />}
             </li>
             <li
               className="hover:text-blue cursor-pointer"
@@ -71,16 +72,23 @@ function Header() {
             >
               {show ? <CgClose className="text-2xl" /> : <PiRocketBold />}
             </li>
+            <Link to={"/dashboard"}>
+              <li className="hover:text-blue cursor-pointer">
+                <FaRegUser className="text-[1.3rem]" />
+              </li>
+            </Link>
           </ul>
         </div>
 
         {showSearch && <SearchBox search={search} setSearch={setSearch} />}
 
-        <ExtendedHeader
-          show={show}
-          selectedFonts={selectedFonts}
-          removeFromCollection={removeFromCollection}
-        />
+        {show && (
+          <ExtendedHeader
+            show={show}
+            selectedFonts={selectedFonts}
+            removeFromCollection={removeFromCollection}
+          />
+        )}
       </div>
     </nav>
   );
