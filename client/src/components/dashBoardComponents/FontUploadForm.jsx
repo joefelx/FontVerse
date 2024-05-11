@@ -23,7 +23,7 @@ const FlowSteps = () => {
           </span>
 
           {index !== uploadStates.length - 1 && (
-            <div className="w-0.5 h-7 bg-gray rounded-full my-3"></div>
+            <div className="w-0.5 h-7 bg-gray rounded-full my-3 opacity-30"></div>
           )}
         </div>
       ))}

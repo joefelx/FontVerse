@@ -21,7 +21,7 @@ function FontWeight({ currentFont, fontWeight, setfontWeight }) {
 
       <div
         className={`flex md:justify-between items-center flex-wrap text-sm overflow-hidden ${
-          currentFont?.fontWeights.length > 1 && "md:bg-darkGray"
+          currentFont?.fontWeights.length > 1 && "md:bg-gray/30"
         } rounded-md`}
       >
         {currentFont?.fontWeights?.map((w, index) => (

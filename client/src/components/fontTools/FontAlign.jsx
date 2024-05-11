@@ -4,7 +4,7 @@ function FontAlign({ alignment, setAlignment }) {
   return (
     <div className="flex flex-col gap-3 md:my-0 my-5">
       <p>Alignment</p>
-      <div className="grid grid-flow-col bg-darkGray rounded-md text-2xl">
+      <div className="grid grid-flow-col bg-gray/30 rounded-md text-2xl">
         {/* left align */}
         <button
           className={`rounded-md p-2 flex items-center justify-center ${
