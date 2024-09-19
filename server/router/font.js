@@ -118,31 +118,30 @@ router.get("/style", async (req, res) => {
   try {
     let fontFamily = req.query.fontFamily;
 
-    let value = await redisClient.get(`style:${fontFamily}`);
+    // let value = await redisClient.get(`style:${fontFamily}`);
 
-    if (value != null) {
-      console.log("inside");
-      res.setHeader("Content-Type", "text/css");
+    // if (value != null) {
+    //   console.log("inside");
+    //   res.setHeader("Content-Type", "text/css");
 
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(value);
-        },
-      });
-    } else {
-      let fontFamilyList = fontFamily.split(",");
-      let formatString = await RenderCSS(fontFamilyList, false);
+    //   return res.status(200).format({
+    //     "text/css": async function () {
+    //       res.send(value);
+    //     },
+    //   });
+    // }
+    let fontFamilyList = fontFamily.split(",");
+    let formatString = await RenderCSS(fontFamilyList, false);
 
-      redisClient.set(`style:${fontFamily}`, formatString);
+    // redisClient.set(`style:${fontFamily}`, formatString);
 
-      res.setHeader("Content-Type", "text/css");
+    res.setHeader("Content-Type", "text/css");
 
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(formatString);
-        },
-      });
-    }
+    return res.status(200).format({
+      "text/css": async function () {
+        res.send(formatString);
+      },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -154,25 +153,24 @@ router.get("/style/all", async (req, res) => {
     let fonts;
     const path = req.path;
 
-    fonts = await redisClient.get(path);
+    // fonts = await redisClient.get(path);
 
-    if (fonts != null) {
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(fonts);
-        },
-      });
-    } else {
-      fonts = await Font.find();
-      let formatString = await RenderCSS(fonts, true);
+    // if (fonts != null) {
+    //   return res.status(200).format({
+    //     "text/css": async function () {
+    //       res.send(fonts);
+    //     },
+    //   });
+    // }
+    fonts = await Font.find();
+    let formatString = await RenderCSS(fonts, true);
 
-      redisClient.set(path, formatString);
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(formatString);
-        },
-      });
-    }
+    // redisClient.set(path, formatString);
+    return res.status(200).format({
+      "text/css": async function () {
+        res.send(formatString);
+      },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -184,14 +182,13 @@ router.get("/all", async (req, res) => {
     let fonts;
     const path = req.path;
 
-    fonts = await redisClient.get(path);
-    if (fonts != null) {
-      return res.status(200).json(JSON.parse(fonts));
-    } else {
-      fonts = await Font.find();
-      redisClient.set(path, JSON.stringify(fonts));
-      return res.status(200).json(fonts);
-    }
+    // fonts = await redisClient.get(path);
+    // if (fonts != null) {
+    //   return res.status(200).json(JSON.parse(fonts));
+
+    fonts = await Font.find();
+    // redisClient.set(path, JSON.stringify(fonts));
+    return res.status(200).json(fonts);
   } catch (error) {
     res.status(500).json({
       status: "failed",
@@ -207,14 +204,13 @@ router.get("/", async (req, res) => {
   try {
     let font;
 
-    font = await redisClient.get(`model:${fontName}`);
-    if (font != null) {
-      return res.status(200).json(JSON.parse(font));
-    } else {
-      font = await Font.find({ fontName: fontName });
-      redisClient.set(`model:${fontName}`, JSON.stringify(font));
-      res.status(200).json(font);
-    }
+    // // font = await redisClient.get(`model:${fontName}`);
+    // // if (font != null) {
+    // //   return res.status(200).json(JSON.parse(font));
+
+    font = await Font.find({ fontName: fontName });
+    // redisClient.set(`model:${fontName}`, JSON.stringify(font));
+    res.status(200).json(font);
   } catch (error) {
     res.status(500).json({
       status: "failed",
