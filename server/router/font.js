@@ -23,7 +23,7 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
     if (fontFound) {
       const newFontWeight = {
         fontWeight: body.fontWeight,
-        fontURL: `${env.SERVER_URL}/public/fonts/${file.filename}`,
+        fontURL: `${env.SERVER_URL}/fonts/${file.filename}`,
       };
 
       fontFound.fontWeights.push(newFontWeight);
@@ -44,7 +44,7 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
       fontWeights: {
         fontWeight: body.fontWeight,
         fontWeightName: body.fontWeightName,
-        fontURL: `${env.SERVER_URL}/public/fonts/${file.filename}`,
+        fontURL: `${env.SERVER_URL}/fonts/${file.filename}`,
       },
     };
 
