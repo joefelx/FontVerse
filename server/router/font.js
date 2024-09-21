@@ -3,13 +3,9 @@ const router = require("express").Router();
 const User = require("../model/User");
 const Font = require("../model/Font");
 
-const upload = require("../storage");
+const upload = require("../storage/multer");
 const RenderCSS = require("../utils/fontUtils");
-const redisClient = require("../utils/redis");
-const s3 = require("../storage/aws");
-
-const s3Connection = require("../storage/aws");
-const generateName = require("../utils/generateName");
+const redisClient = require("../storage/redis");
 const isAdmin = require("../middleware/isAdmin");
 
 const env = require("../utils/constEnv");
@@ -25,16 +21,9 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
     });
 
     if (fontFound) {
-      // Step1: Upload the file to AWS
-      // Step2: setup the cdn for the AWS bucket
-      const genFontName = generateName();
-      await s3Connection.uploadFont(genFontName, file.buffer, file.mimetype);
-      console.log("Step 1 -> Font uploaded: ", genFontName);
-      // push the font weight into the font
-
       const newFontWeight = {
         fontWeight: body.fontWeight,
-        fontURL: `${env.FONTCDN}/${genFontName}`,
+        fontURL: `${env.SERVER_URL}/public/fonts/${file.filename}`,
       };
 
       fontFound.fontWeights.push(newFontWeight);
@@ -46,13 +35,6 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
         data: "fontSaved",
       });
     }
-    // Step1: Upload the file to AWS
-    // Step2: setup the cdn for the AWS bucket
-    const genFontName = generateName();
-    await s3Connection.uploadFont(genFontName, file.buffer, file.mimetype);
-    console.log("Step 1 -> Font uploaded: ", genFontName);
-
-    // Step3: get the filename from AWS and store it in mongodb
 
     const fontRefactor = {
       userId: req.userId,
@@ -62,25 +44,20 @@ router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
       fontWeights: {
         fontWeight: body.fontWeight,
         fontWeightName: body.fontWeightName,
-        fontURL: `${env.FONTCDN}/${genFontName}`,
+        fontURL: `${env.SERVER_URL}/public/fonts/${file.filename}`,
       },
     };
-
-    console.log("Step 2 -> Refactor font document");
 
     // create new font object
     const font = new Font(fontRefactor);
     const savedFont = await font.save();
-    console.log("Step 3 -> Saved Font!");
 
     // save the collection to user
     const user = await User.findById({ _id: req.userId });
     user.fonts.push(font._id);
     await user.save();
 
-    console.log("Step 4 -> Saved Font to User collection!");
-
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       data: savedFont,
     });
@@ -118,22 +95,22 @@ router.get("/style", async (req, res) => {
   try {
     let fontFamily = req.query.fontFamily;
 
-    // let value = await redisClient.get(`style:${fontFamily}`);
+    let value = await redisClient.get(`style:${fontFamily}`);
 
-    // if (value != null) {
-    //   console.log("inside");
-    //   res.setHeader("Content-Type", "text/css");
+    if (value != null) {
+      console.log("inside");
+      res.setHeader("Content-Type", "text/css");
 
-    //   return res.status(200).format({
-    //     "text/css": async function () {
-    //       res.send(value);
-    //     },
-    //   });
-    // }
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(value);
+        },
+      });
+    }
     let fontFamilyList = fontFamily.split(",");
     let formatString = await RenderCSS(fontFamilyList, false);
 
-    // redisClient.set(`style:${fontFamily}`, formatString);
+    redisClient.set(`style:${fontFamily}`, formatString);
 
     res.setHeader("Content-Type", "text/css");
 
@@ -153,19 +130,19 @@ router.get("/style/all", async (req, res) => {
     let fonts;
     const path = req.path;
 
-    // fonts = await redisClient.get(path);
+    fonts = await redisClient.get(path);
 
-    // if (fonts != null) {
-    //   return res.status(200).format({
-    //     "text/css": async function () {
-    //       res.send(fonts);
-    //     },
-    //   });
-    // }
+    if (fonts != null) {
+      return res.status(200).format({
+        "text/css": async function () {
+          res.send(fonts);
+        },
+      });
+    }
     fonts = await Font.find();
     let formatString = await RenderCSS(fonts, true);
 
-    // redisClient.set(path, formatString);
+    redisClient.set(path, formatString);
     return res.status(200).format({
       "text/css": async function () {
         res.send(formatString);
@@ -182,15 +159,16 @@ router.get("/all", async (req, res) => {
     let fonts;
     const path = req.path;
 
-    // fonts = await redisClient.get(path);
-    // if (fonts != null) {
-    //   return res.status(200).json(JSON.parse(fonts));
+    fonts = await redisClient.get(path);
+    if (fonts != null) return res.status(200).json(JSON.parse(fonts));
 
     fonts = await Font.find();
-    // redisClient.set(path, JSON.stringify(fonts));
+
+    redisClient.set(path, JSON.stringify(fonts));
+
     return res.status(200).json(fonts);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       data: error,
     });
@@ -204,15 +182,15 @@ router.get("/", async (req, res) => {
   try {
     let font;
 
-    // // font = await redisClient.get(`model:${fontName}`);
-    // // if (font != null) {
-    // //   return res.status(200).json(JSON.parse(font));
+    font = await redisClient.get(`model:${fontName}`);
+    if (font != null) return res.status(200).json(JSON.parse(font));
 
     font = await Font.find({ fontName: fontName });
-    // redisClient.set(`model:${fontName}`, JSON.stringify(font));
-    res.status(200).json(font);
+
+    redisClient.set(`model:${fontName}`, JSON.stringify(font));
+    return res.status(200).json(font);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       status: "failed",
       data: error,
     });

@@ -34,9 +34,13 @@ async function RenderFormatString(
       0
     );
   } else {
+    console.log(fontFamilyArray);
+
     const fontFound = await Font.findOne({
       fontName: fontFamilyArray[index],
     });
+
+    console.log(fontFound);
 
     FORMATE_STRING = WriteCSS(
       fontFound.fontName,

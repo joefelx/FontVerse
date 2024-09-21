@@ -5,9 +5,12 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const redisClient = require("./utils/redis");
+
+const redisClient = require("./storage/redis");
 const fontRouter = require("./router/font");
 const userRouter = require("./router/user");
+
+const envFile = require("./utils/constEnv");
 
 // App setup
 dotenv.config();
@@ -42,6 +45,13 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: envFile.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "OPTIONS"],
+  })
+);
+
 // Routes
 app.get("/", (req, res) => {
   res.sendFile("index.html");
@@ -52,9 +62,9 @@ app.use("/api/user", userRouter);
 
 // Connection
 async function startServer() {
-  // await redisClient.connect().then(() => {
-  //   console.log("Redis server started!");
-  // });
+  await redisClient.connect().then(() => {
+    console.log("Redis server started!");
+  });
 
   // Database Connection
   mongoose.set("strictQuery", false);
