@@ -98,7 +98,6 @@ router.get("/style", async (req, res) => {
     let value = await redisClient.get(`style:${fontFamily}`);
 
     if (value != null) {
-      console.log("inside");
       res.setHeader("Content-Type", "text/css");
 
       return res.status(200).format({
@@ -156,16 +155,7 @@ router.get("/style/all", async (req, res) => {
 // get all fonts
 router.get("/all", async (req, res) => {
   try {
-    let fonts;
-    const path = req.path;
-
-    fonts = await redisClient.get(path);
-    if (fonts != null) return res.status(200).json(JSON.parse(fonts));
-
-    fonts = await Font.find();
-
-    redisClient.set(path, JSON.stringify(fonts));
-
+    let fonts = await Font.find();
     return res.status(200).json(fonts);
   } catch (error) {
     return res.status(500).json({
@@ -203,7 +193,6 @@ router.get("/:userId", async (req, res) => {
 
   try {
     const user = await User.findById(userId).populate("fonts");
-
     return res.status(200).json(user.fonts);
   } catch (error) {
     return res.status(500).json({
