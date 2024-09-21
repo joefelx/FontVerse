@@ -1,5 +1,4 @@
 const multer = require("multer");
-const generateName = require("../utils/generateName");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

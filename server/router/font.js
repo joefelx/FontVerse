@@ -197,4 +197,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+// get font list of user
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId).populate("fonts");
+
+    return res.status(200).json(user.fonts);
+  } catch (error) {
+    return res.status(500).json({
+      status: "failed",
+      data: error,
+    });
+  }
+});
 module.exports = router;

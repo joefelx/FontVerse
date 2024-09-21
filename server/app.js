@@ -45,13 +45,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: envFile.CLIENT_URL,
-    methods: ["GET", "POST", "PUT", "OPTIONS"],
-  })
-);
-
 // Routes
 app.get("/", (req, res) => {
   res.sendFile("index.html");
