@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
 import Layout from "./DashboardLayout";
+import { useEffect, useState } from "react";
+import useFont from "../../hooks/useFont";
 
 const Box = ({ font }) => {
   const navigate = useNavigate();
@@ -16,6 +18,16 @@ const Box = ({ font }) => {
 };
 
 const Overview = ({ user, setCurrentTab }) => {
+  const [fonts, setFonts] = useState([]);
+  const { getFontFromUser } = useFont();
+
+  useEffect(() => {
+    (async () => {
+      const f = await getFontFromUser();
+      setFonts(f);
+    })();
+  }, []);
+
   return (
     <Layout>
       <div className="my-10">
@@ -28,7 +40,7 @@ const Overview = ({ user, setCurrentTab }) => {
 
         {/* font box */}
         <div className="grid grid-cols-3">
-          {user.fonts.map((font) => (
+          {fonts.map((font) => (
             <Box key={font.id} font={font} />
           ))}
 

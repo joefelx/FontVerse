@@ -90,15 +90,6 @@ const useFont = () => {
 
   const uploadFonts = async (fontData, fontWeights) => {
     try {
-      // Object { fontName: "Poppins", fontSlug: "poppins", fontDetail: "sfa", price: "" }
-
-      // fontFile: File { name: "OpenSans-Medium.woff2", lastModified: 1710679395676, size: 59740, … }
-      // ​​
-      // fontWeight: "100"
-      // ​​
-
-      // fontWeightName: "Thin"
-
       async function handleFontUpload(fontWeightObject) {
         console.log(fontWeightObject);
         const formData = new FormData();
@@ -115,7 +106,7 @@ const useFont = () => {
             method: "POST",
             body: formData,
             headers: {
-              Authorization: "65bf183d79903b409ca30089",
+              Authorization: "66ec5503f64e11759c23c1a4",
             },
           }
         );
@@ -142,6 +133,15 @@ const useFont = () => {
     }
   };
 
+  const getFontFromUser = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/font/${user._id}`
+    );
+    const fonts = await response.json();
+
+    return fonts;
+  };
+
   return {
     currentFont,
     selectedFonts,
@@ -153,6 +153,7 @@ const useFont = () => {
     addToCollection,
     removeFromCollection,
     uploadFonts,
+    getFontFromUser,
     dispatch,
   };
 };
