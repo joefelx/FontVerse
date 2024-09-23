@@ -5,9 +5,12 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const redisClient = require("./utils/redis");
+
+const redisClient = require("./storage/redis");
 const fontRouter = require("./router/font");
 const userRouter = require("./router/user");
+
+const envFile = require("./utils/constEnv");
 
 // App setup
 dotenv.config();

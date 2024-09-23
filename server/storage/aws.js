@@ -23,6 +23,7 @@ class AWSHandler {
       Key: fileName,
       Body: file,
       ContentType: mimetype,
+      ACL: "public-read",
     };
 
     return s3.send(new PutObjectCommand(params));

@@ -9,6 +9,8 @@ router.post("/auth/signup", async (req, res) => {
   try {
     const founduser = await User.findOne({ email: req.body.email });
 
+    console.log(req.body);
+
     if (founduser) {
       return res.status(400).json({
         status: "failed",
@@ -25,6 +27,7 @@ router.post("/auth/signup", async (req, res) => {
     });
 
     const newUser = await user.save();
+    console.log(newUser);
 
     return res.status(201).json({
       status: "success",
@@ -32,6 +35,8 @@ router.post("/auth/signup", async (req, res) => {
       logged: true,
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       status: "failed",
       data: error,

@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 const env = {
+  CLIENT_URL: process.env.CLIENT_URL,
+  SERVER_URL: process.env.SERVER_URL,
   FONTCDN: process.env.AWS_FONTCDN,
   AWS_REGION: process.env.AWS_REGION,
   AWS_ACCESSKEY_ID: process.env.AWS_ACCESSKEY_ID,
