@@ -43,7 +43,6 @@ const useFont = () => {
   };
 
   const fetchAllFonts = async () => {
-    console.log(process.env.REACT_APP_SERVER_URL);
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/font/all`
     );
@@ -85,13 +84,11 @@ const useFont = () => {
 
   const setCurrentFont = (font) => {
     dispatch({ type: "SET_CURRENT_FONT", payload: font });
-    console.log(currentFont);
   };
 
   const uploadFonts = async (fontData, fontWeights) => {
     try {
       async function handleFontUpload(fontWeightObject) {
-        console.log(fontWeightObject);
         const formData = new FormData();
         formData.append("fontName", fontData.fontName);
         formData.append("fontSlug", fontData.fontSlug);
@@ -111,9 +108,6 @@ const useFont = () => {
           }
         );
         const data = await response.json();
-
-        console.log(data);
-
         return data;
       }
 
@@ -126,8 +120,6 @@ const useFont = () => {
           i++;
         }
       }
-
-      console.log(fontData, fontWeights);
     } catch (error) {
       console.log(error);
     }
