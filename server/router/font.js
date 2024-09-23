@@ -4,7 +4,7 @@ const User = require("../model/User");
 const Font = require("../model/Font");
 
 const upload = require("../storage/multer");
-const RenderCSS = require("../utils/fontUtils");
+const renderStyle = require("../utils/renderStyle");
 const redisClient = require("../storage/redis");
 const isAdmin = require("../middleware/isAdmin");
 
@@ -96,23 +96,23 @@ router.get("/style", async (req, res) => {
     let fontFamily = req.query.fontFamily;
 
     let value = await redisClient.get(`style:${fontFamily}`);
-
     if (value != null) {
       res.setHeader("Content-Type", "text/css");
-
       return res.status(200).format({
         "text/css": async function () {
           res.send(value);
         },
       });
     }
-    let fontFamilyList = fontFamily.split(",");
-    let formatString = await RenderCSS(fontFamilyList, false);
+
+    let fontNameList = fontFamily.split(",");
+    let fontsList = await Font.find().where("fontName").in(fontNameList).exec();
+
+    let formatString = await renderStyle(fontsList);
 
     redisClient.set(`style:${fontFamily}`, formatString);
 
     res.setHeader("Content-Type", "text/css");
-
     return res.status(200).format({
       "text/css": async function () {
         res.send(formatString);
@@ -130,7 +130,6 @@ router.get("/style/all", async (req, res) => {
     const path = req.path;
 
     fonts = await redisClient.get(path);
-
     if (fonts != null) {
       return res.status(200).format({
         "text/css": async function () {
@@ -138,10 +137,11 @@ router.get("/style/all", async (req, res) => {
         },
       });
     }
-    fonts = await Font.find();
-    let formatString = await RenderCSS(fonts, true);
 
+    fonts = await Font.find();
+    let formatString = await renderStyle(fonts);
     redisClient.set(path, formatString);
+
     return res.status(200).format({
       "text/css": async function () {
         res.send(formatString);
@@ -187,7 +187,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// get font list of user
+// get font list by userId
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
 
