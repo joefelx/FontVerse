@@ -55,10 +55,6 @@ app.use("/api/user", userRouter);
 
 // Connection
 async function startServer() {
-  await redisClient.connect().then(() => {
-    console.log("Redis server started!");
-  });
-
   // Database Connection
   mongoose.set("strictQuery", false);
 
@@ -72,6 +68,10 @@ async function startServer() {
       console.log("Mongodb is connected!");
     }
   );
+
+  await redisClient.connect().then(() => {
+    console.log("Redis server started!");
+  });
 
   app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
 }

@@ -7,16 +7,24 @@ const REDIS_HOST_PORT = process.env.REDIS_HOST_PORT;
 
 let client;
 
-// client = createClient(6379, "127.0.0.1");
+const MODE = process.env.MODE;
 
-client = createClient({
-  password: REDIS_PASSWORD,
-  legacyMode: false,
-  socket: {
-    connectTimeout: 10000,
-    host: REDIS_HOST,
-    port: REDIS_HOST_PORT,
-  },
-});
+if (MODE == "DEVELOPMENT") {
+  console.log("inside development");
+
+  client = createClient("redis://fv-redis:6379");
+}
+
+if (MODE == "PRODUCTION") {
+  client = createClient({
+    password: REDIS_PASSWORD,
+    legacyMode: false,
+    socket: {
+      connectTimeout: 10000,
+      host: REDIS_HOST,
+      port: REDIS_HOST_PORT,
+    },
+  });
+}
 
 module.exports = client;

@@ -1,0 +1,32 @@
+services:
+  server:
+    build: .
+    ports:
+      - "5000:5000"
+    networks:
+      - backend
+    depends_on:
+      - fv-redis
+      - fv-mongo
+
+  fv-redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+    
+  fv-mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
