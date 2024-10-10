@@ -55,25 +55,33 @@ app.use("/api/user", userRouter);
 
 // Connection
 async function startServer() {
-  // Database Connection
-  mongoose.set("strictQuery", false);
+  try {
+    // Database Connection
+    mongoose.set("strictQuery", false);
 
-  mongoose.connect(
-    process.env.MONGO_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-    () => {
-      console.log("Mongodb is connected!");
-    }
-  );
+    mongoose.connect(
+      process.env.MONGO_URI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      () => {
+        console.log("Mongodb is connected!");
+      }
+    );
+  } catch (e) {
+    console.log("Error Occurred in Mongo!");
+  }
 
-  await redisClient.connect().then(() => {
-    console.log("Redis server started!");
-  });
-
-  app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
+  try {
+    await redisClient.connect(process.env.MODE).then(() => {
+      console.log("Redis server started!");
+    });
+  } catch (e) {
+    console.log("Error Occurred in Redis!");
+  } finally {
+    app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
+  }
 }
 
 startServer();
