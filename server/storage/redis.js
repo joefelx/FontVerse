@@ -26,16 +26,19 @@ class RedisClient {
           },
         });
       }
+
+      await this.connection.connect().then(() => {
+        return Promise.resolve();
+      });
     } catch (error) {
       console.log("Unable to Connect, trying in new seconds..");
-    } finally {
-      await this.connection.connect();
-      return Promise.resolve();
     }
   }
 
   getClient() {
-    return this.connection;
+    if (this.connection !== null) {
+      return this.connection;
+    }
   }
 }
 
