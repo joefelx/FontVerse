@@ -5,7 +5,7 @@ const Font = require("../model/Font");
 
 const upload = require("../storage/multer");
 const renderStyle = require("../utils/renderStyle");
-const redisClient = require("../storage/redis").getClient();
+const redisClient = require("../storage/redis");
 const isAdmin = require("../middleware/isAdmin");
 
 const env = require("../utils/constEnv");
@@ -130,6 +130,7 @@ router.get("/style/all", async (req, res) => {
     const path = req.path;
 
     fonts = await redisClient.get(path);
+
     if (fonts != null) {
       return res.status(200).format({
         "text/css": async function () {
@@ -139,6 +140,7 @@ router.get("/style/all", async (req, res) => {
     }
 
     fonts = await Font.find();
+
     let formatString = await renderStyle(fonts);
     redisClient.set(path, formatString);
 

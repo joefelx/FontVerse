@@ -73,7 +73,7 @@ async function startServer() {
   }
 
   try {
-    await redisClient.connect(MODE).then(() => {
+    await redisClient.connect().then(() => {
       console.log("Redis server started!");
     });
   } catch (e) {
