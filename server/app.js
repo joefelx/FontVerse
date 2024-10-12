@@ -10,12 +10,11 @@ const redisClient = require("./storage/redis");
 const fontRouter = require("./router/font");
 const userRouter = require("./router/user");
 
-const envFile = require("./utils/constEnv");
+const { MONGO_URI, MODE, PORT } = require("./utils/constEnv");
 
 // App setup
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use((req, res, next) => {
@@ -60,7 +59,7 @@ async function startServer() {
     mongoose.set("strictQuery", false);
 
     mongoose.connect(
-      process.env.MONGO_URI,
+      MONGO_URI,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -74,7 +73,7 @@ async function startServer() {
   }
 
   try {
-    await redisClient.connect(process.env.MODE).then(() => {
+    await redisClient.connect(MODE).then(() => {
       console.log("Redis server started!");
     });
   } catch (e) {

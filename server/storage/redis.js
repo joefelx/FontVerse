@@ -1,22 +1,21 @@
 const { createClient } = require("redis");
+const {
+  REDIS_URL,
+  REDIS_PASSWORD,
+  REDIS_HOST,
+  REDIS_HOST_PORT,
+} = require("../utils/constEnv");
 require("dotenv").config();
-
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
-const REDIS_HOST = process.env.REDIS_HOST;
-const REDIS_HOST_PORT = process.env.REDIS_HOST_PORT;
-
-const MODE = process.env.MODE;
-const REDIS_URL = process.env.REDIS_URL;
 
 class RedisClient {
   async connect(MODE) {
     let connection;
     try {
-      if (MODE == "DEVELOPMENT") {
+      if (MODE === "DEVELOPMENT") {
         connection = createClient(REDIS_URL);
       }
 
-      if (MODE == "PRODUCTION") {
+      if (MODE === "PRODUCTION") {
         connection = createClient({
           password: REDIS_PASSWORD,
           legacyMode: false,
