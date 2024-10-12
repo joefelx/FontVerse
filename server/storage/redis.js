@@ -8,15 +8,15 @@ const {
 require("dotenv").config();
 
 class RedisClient {
+  connection = null;
   async connect(MODE) {
-    let connection;
     try {
       if (MODE === "DEVELOPMENT") {
-        connection = createClient(REDIS_URL);
+        this.connection = createClient(REDIS_URL);
       }
 
       if (MODE === "PRODUCTION") {
-        connection = createClient({
+        this.connection = createClient({
           password: REDIS_PASSWORD,
           legacyMode: false,
           socket: {
@@ -29,9 +29,13 @@ class RedisClient {
     } catch (error) {
       console.log("Unable to Connect, trying in new seconds..");
     } finally {
-      await connection.connect();
+      await this.connection.connect();
       return Promise.resolve();
     }
+  }
+
+  getClient() {
+    return this.connection;
   }
 }
 

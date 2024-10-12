@@ -5,7 +5,7 @@ const Font = require("../model/Font");
 
 const upload = require("../storage/multer");
 const renderStyle = require("../utils/renderStyle");
-const redisClient = require("../storage/redis");
+const redisClient = require("../storage/redis").getClient();
 const isAdmin = require("../middleware/isAdmin");
 
 const env = require("../utils/constEnv");
