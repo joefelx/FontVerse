@@ -10,12 +10,11 @@ const redisClient = require("./storage/redis");
 const fontRouter = require("./router/font");
 const userRouter = require("./router/user");
 
-const envFile = require("./utils/constEnv");
+const { MONGO_URI, MODE, PORT } = require("./utils/constEnv");
 
 // App setup
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use((req, res, next) => {
@@ -55,25 +54,33 @@ app.use("/api/user", userRouter);
 
 // Connection
 async function startServer() {
-  await redisClient.connect().then(() => {
-    console.log("Redis server started!");
-  });
+  try {
+    // Database Connection
+    mongoose.set("strictQuery", false);
 
-  // Database Connection
-  mongoose.set("strictQuery", false);
+    mongoose.connect(
+      MONGO_URI,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      () => {
+        console.log("Mongodb is connected!");
+      }
+    );
+  } catch (e) {
+    console.log("Error Occurred in Mongo!");
+  }
 
-  mongoose.connect(
-    process.env.MONGO_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-    () => {
-      console.log("Mongodb is connected!");
-    }
-  );
-
-  app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
+  try {
+    await redisClient.connect(MODE).then(() => {
+      console.log("Redis server started!");
+    });
+  } catch (e) {
+    console.log("Error Occurred in Redis!");
+  } finally {
+    app.listen(PORT, () => console.log(`Server connected to port: ${PORT}`));
+  }
 }
 
 startServer();

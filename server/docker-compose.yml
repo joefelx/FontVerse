@@ -1,0 +1,42 @@
+services:
+  fv-backend:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MODE=DEVELOPMENT
+      - MONGO_URI=mongodb://fv-mongo:27017/fontverse
+      - SERVER_URL=https://font-verse-api.onrender.com
+      - CLIENT_URL=https://fontverse.vercel.app
+      - REDIS_URL=redis://fv-redis:6379
+    networks:
+      - backend
+    depends_on:
+      - fv-redis
+      - fv-mongo
+    restart: always
+    
+  fv-redis:
+    image: redis:latest
+    networks:
+      - backend
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+    
+  fv-mongo:
+    image: mongo:latest
+    networks:
+      - backend
+    ports:
+      - "27017:27017"
+
+
+networks:
+  backend:
+    driver: bridge

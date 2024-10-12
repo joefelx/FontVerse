@@ -1,22 +1,40 @@
 const { createClient } = require("redis");
+const {
+  REDIS_URL,
+  REDIS_PASSWORD,
+  REDIS_HOST,
+  REDIS_HOST_PORT,
+} = require("../utils/constEnv");
 require("dotenv").config();
 
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
-const REDIS_HOST = process.env.REDIS_HOST;
-const REDIS_HOST_PORT = process.env.REDIS_HOST_PORT;
+class RedisClient {
+  async connect(MODE) {
+    let connection;
+    try {
+      if (MODE === "DEVELOPMENT") {
+        connection = createClient(REDIS_URL);
+      }
 
-let client;
+      if (MODE === "PRODUCTION") {
+        connection = createClient({
+          password: REDIS_PASSWORD,
+          legacyMode: false,
+          socket: {
+            connectTimeout: 10000,
+            host: REDIS_HOST,
+            port: REDIS_HOST_PORT,
+          },
+        });
+      }
+    } catch (error) {
+      console.log("Unable to Connect, trying in new seconds..");
+    } finally {
+      await connection.connect();
+      return Promise.resolve();
+    }
+  }
+}
 
-// client = createClient(6379, "127.0.0.1");
+const redisClient = new RedisClient();
 
-client = createClient({
-  password: REDIS_PASSWORD,
-  legacyMode: false,
-  socket: {
-    connectTimeout: 10000,
-    host: REDIS_HOST,
-    port: REDIS_HOST_PORT,
-  },
-});
-
-module.exports = client;
+module.exports = redisClient;

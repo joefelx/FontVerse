@@ -22,9 +22,13 @@ class Render {
   }
 
   async renderStyle(fontFamilyArray) {
-    this.FORMATE_STRING = "";
+    this.resetFormatString();
     this.writeStyle(fontFamilyArray);
     return Promise.resolve(this.FORMATE_STRING);
+  }
+
+  resetFormatString() {
+    this.FORMATE_STRING = "";
   }
 }
 

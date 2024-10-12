@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 
 // Authenication and User creation
@@ -8,8 +8,6 @@ const User = require("../model/User");
 router.post("/auth/signup", async (req, res) => {
   try {
     const founduser = await User.findOne({ email: req.body.email });
-
-    console.log(req.body);
 
     if (founduser) {
       return res.status(400).json({
@@ -27,7 +25,6 @@ router.post("/auth/signup", async (req, res) => {
     });
 
     const newUser = await user.save();
-    console.log(newUser);
 
     return res.status(201).json({
       status: "success",
