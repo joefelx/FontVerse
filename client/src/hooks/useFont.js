@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { FontContext } from "../context/FontContext";
 import toast from "react-hot-toast";
 import { UserContext } from "../context/UserContext";
+import useAuth from "./useAuth";
 
 const useFont = () => {
   const { selectedFonts, fontsList, currentFont, dispatch } =
     useContext(FontContext);
 
-  const { user } = useContext(UserContext);
+  // const { user } = useAuth();
 
   const fetchFont = async (fontName) => {
     const response = await fetch(
@@ -125,7 +126,9 @@ const useFont = () => {
     }
   };
 
-  const getFontFromUser = async () => {
+  const getFontFromUser = async (user) => {
+    console.log(user);
+
     const response = await fetch(
       `${process.env.REACT_APP_SERVER_URL}/font/${user._id}`
     );

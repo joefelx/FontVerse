@@ -23,7 +23,7 @@ const Overview = ({ user, setCurrentTab }) => {
 
   useEffect(() => {
     (async () => {
-      const f = await getFontFromUser();
+      const f = await getFontFromUser(user);
       setFonts(f);
     })();
   }, []);
@@ -31,7 +31,7 @@ const Overview = ({ user, setCurrentTab }) => {
   return (
     <Layout>
       <div className="my-10">
-        <h1 className="text-5xl">{user.name}</h1>
+        <h1 className="text-5xl">{user?.name}</h1>
       </div>
       <hr className="border-t border-gray" />
       {/* Collections */}

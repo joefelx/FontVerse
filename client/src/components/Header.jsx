@@ -72,11 +72,11 @@ function Header() {
             >
               {show ? <CgClose className="text-2xl" /> : <PiRocketBold />}
             </li>
-            {/* <Link to={"/dashboard"}>
+            <Link to={"/dashboard"}>
               <li className="hover:text-blue cursor-pointer">
                 <FaRegUser className="text-[1.3rem]" />
               </li>
-            </Link> */}
+            </Link>
           </ul>
         </div>
 
