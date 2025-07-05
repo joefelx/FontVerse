@@ -10,18 +10,18 @@ const {
 let client = null;
 
 if (MODE === "DEVELOPMENT") {
-  client = createClient(REDIS_URL);
+  // client = createClient(REDIS_URL);
 } else if (MODE === "PRODUCTION") {
   try {
-    client = createClient({
-      password: REDIS_PASSWORD,
-      legacyMode: false,
-      socket: {
-        connectTimeout: 10000,
-        host: REDIS_HOST,
-        port: REDIS_HOST_PORT,
-      },
-    });
+    // client = createClient({
+    //   password: REDIS_PASSWORD,
+    //   legacyMode: false,
+    //   socket: {
+    //     connectTimeout: 10000,
+    //     host: REDIS_HOST,
+    //     port: REDIS_HOST_PORT,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
   }
