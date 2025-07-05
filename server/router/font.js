@@ -9,6 +9,8 @@ const redisClient = require("../storage/redis");
 const isAdmin = require("../middleware/isAdmin");
 
 const env = require("../utils/constEnv");
+const redisCache = require("../middleware/redisCache");
+const { setCache } = require("../utils/cacheManager");
 
 // store new font in db
 router.post("/new", isAdmin, upload.single("font"), async (req, res) => {
@@ -91,26 +93,20 @@ router.post("/update", upload.single("font"), async (req, res) => {
 });
 
 // returning the font style to the project url
-router.get("/style", async (req, res) => {
+router.get("/style", redisCache, async (req, res) => {
   try {
-    let fontFamily = req.query.fontFamily;
+    const fontFamily = req.query.fontFamily;
 
-    let value = await redisClient.get(`style:${fontFamily}`);
-    if (value != null) {
-      res.setHeader("Content-Type", "text/css");
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(value);
-        },
-      });
-    }
+    const fontNameList = fontFamily.split(",");
+    const fontsList = await Font.find()
+      .where("fontName")
+      .in(fontNameList)
+      .exec();
 
-    let fontNameList = fontFamily.split(",");
-    let fontsList = await Font.find().where("fontName").in(fontNameList).exec();
+    const formatString = await renderStyle(fontsList);
 
-    let formatString = await renderStyle(fontsList);
-
-    redisClient.set(`style:${fontFamily}`, formatString);
+    const cacheKey = req.cacheKey;
+    setCache(cacheKey, formatString);
 
     res.setHeader("Content-Type", "text/css");
     return res.status(200).format({
@@ -124,25 +120,14 @@ router.get("/style", async (req, res) => {
 });
 
 // return all the font style
-router.get("/style/all", async (req, res) => {
+router.get("/style/all", redisCache, async (req, res) => {
   try {
-    let fonts;
-    const path = req.path;
+    const fonts = await Font.find();
 
-    fonts = await redisClient.get(path);
+    const formatString = await renderStyle(fonts);
 
-    if (fonts != null) {
-      return res.status(200).format({
-        "text/css": async function () {
-          res.send(fonts);
-        },
-      });
-    }
-
-    fonts = await Font.find();
-
-    let formatString = await renderStyle(fonts);
-    redisClient.set(path, formatString);
+    const cacheKey = req.cacheKey;
+    setCache(cacheKey, formatString);
 
     return res.status(200).format({
       "text/css": async function () {
@@ -157,7 +142,7 @@ router.get("/style/all", async (req, res) => {
 // get all fonts
 router.get("/all", async (req, res) => {
   try {
-    let fonts = await Font.find();
+    const fonts = await Font.find();
     return res.status(200).json(fonts);
   } catch (error) {
     return res.status(500).json({
@@ -168,18 +153,12 @@ router.get("/all", async (req, res) => {
 });
 
 // get a font
-router.get("/", async (req, res) => {
+router.get("/", redisCache, async (req, res) => {
   const fontName = req.query.fontName;
 
   try {
-    let font;
+    const font = await Font.find({ fontName: fontName });
 
-    font = await redisClient.get(`model:${fontName}`);
-    if (font != null) return res.status(200).json(JSON.parse(font));
-
-    font = await Font.find({ fontName: fontName });
-
-    redisClient.set(`model:${fontName}`, JSON.stringify(font));
     return res.status(200).json(font);
   } catch (error) {
     return res.status(500).json({

@@ -7,22 +7,24 @@ const {
   MODE,
 } = require("../utils/constEnv");
 
-let client;
+let client = null;
 
 if (MODE === "DEVELOPMENT") {
   client = createClient(REDIS_URL);
-}
-
-if (MODE === "PRODUCTION") {
-  client = createClient({
-    password: REDIS_PASSWORD,
-    legacyMode: false,
-    socket: {
-      connectTimeout: 10000,
-      host: REDIS_HOST,
-      port: REDIS_HOST_PORT,
-    },
-  });
+} else if (MODE === "PRODUCTION") {
+  try {
+    client = createClient({
+      password: REDIS_PASSWORD,
+      legacyMode: false,
+      socket: {
+        connectTimeout: 10000,
+        host: REDIS_HOST,
+        port: REDIS_HOST_PORT,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = client;

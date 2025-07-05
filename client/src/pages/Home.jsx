@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Triangle } from "react-loader-spinner";
 
 import { FontLayout } from "../components";
 import { generateRandomNum } from "../utils";
